@@ -20,6 +20,8 @@ Follow these in order. Each step depends on the one before it.
 4. **[Supplier bill capture](docs/04-supplier-bills.md)**: forward supplier emails to Books and let Autoscan turn them into bills.
 5. **[Paper records → Zoho](docs/05-data-migration.md)**: capture on next visit, enter regulars first, keep the notebooks as the archive.
 6. **[Go-live checklist](docs/06-go-live-checklist.md)**.
+**➡ Master plan: [ROADMAP](docs/ROADMAP.md)** (mirrored as numbered Tasks in Zoho CRM)
+
 7. **[Automated setup with GitHub Actions](docs/07-github-actions.md)**: creates the CRM fields, Books VAT rates, price list and suppliers for you.
 
 ## Build with Claude + Zoho MCP

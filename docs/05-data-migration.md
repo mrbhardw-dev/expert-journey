@@ -1,25 +1,52 @@
-# 5. Data migration: from Excel and notebooks into Zoho
+# 5. Getting paper records into Zoho
 
-Import in this order, because each file links to the one before it:
+The records are all on paper, so don't try to type in every old notebook. Use a **three-lane approach**
+so the system becomes useful from day one while the typing effort stays small.
 
-| Order | File | Import into | Match / link on |
-|---|---|---|---|
-| 1 | `templates/customers.csv` | CRM → Contacts → Import | New records; de-duplicate on **Mobile** |
-| 2 | `templates/vehicles.csv` | CRM → Vehicles → Import | Link `Customer Mobile` → Contact by **Mobile** |
-| 3 | `templates/job_history.csv` | CRM → Job Cards → Import | Link `Registration` → Vehicle by **Registration** |
-| 4 | `templates/suppliers.csv` | Books → Vendors → Import | none |
+## Lane 1: capture on the next visit (all customers, zero backlog)
 
-## Rules for cleaning the data
+From go-live, **every customer who calls or walks in gets created in CRM at that moment**:
+Customer → Vehicle → Job Card. It takes about 60 seconds at the desk. Within 3–6 months every active
+customer is in the system without a separate data-entry project.
 
-- **Mobile numbers:** use `+353` format with no spaces (`+353871234567`). The mobile number is how customers are matched, and WhatsApp needs this format later.
-- **Registrations:** upper-case with dashes (`191-D-12345`). The normalize function also fixes these on edit, but import clean data anyway.
-- **One row per vehicle**, even when the same customer owns two cars.
-- **Job history:** you don't need every old job. The **last visit per vehicle** is enough, so the service and NCT reminders start working. Put old job details in `Work_Done` as text; old jobs don't need job lines.
-- Past jobs import with Stage = **Collected**. Blueprint doesn't block imports.
-- For the GDPR consent fields, leave them **blank** unless you have a record that the customer gave consent.
+## Lane 2: regulars and fleet first (a one-off, a few evenings)
 
-## Using Zoho MCP (optional)
+Go through the notebooks and pick out **regulars, fleet/trade accounts and anyone with a service or NCT
+due in the next 3 months**. That's usually 50–200 people. Record for each one:
+- customer name, mobile, and email if you have it
+- each vehicle: registration, make, model, approximate mileage
+- **last visit only**: date, what was done, and anything advised (e.g. "rear tyres soon")
 
-If you've connected the Zoho MCP server to Claude, you can hand Claude the old Excel file and
-ask it to clean the data into these templates, then create the records directly. Do a dry run with 10 rows first,
-and check the result in CRM before running the rest.
+Two ways to get this in:
+
+**a) Spreadsheet → import.** Copy the three files from `templates/` into a folder that is **not** in
+this repo (e.g. `Documents/garage-data/`), fill them in with Excel or Google Sheets (save as CSV), and run:
+
+```bash
+pip install -r requirements.txt
+python -m zoho_setup validate --data-dir ~/Documents/garage-data              # checks regs, mobiles, dates
+python -m zoho_setup import-data --data-dir ~/Documents/garage-data           # dry run
+python -m zoho_setup import-data --data-dir ~/Documents/garage-data --apply   # import
+```
+
+Re-running is safe: customers match on mobile number, vehicles on registration, and jobs on registration + date.
+
+**b) Photos → Claude with Zoho MCP.** Connect Zoho MCP in the Claude app, photograph a notebook page,
+and ask Claude to read it and create the customers, vehicles and last-visit job cards. **Always ask
+for a list to check before it creates anything.** Handwriting gets misread, especially registrations
+and phone numbers.
+
+## Lane 3: the notebooks stay the archive
+
+Keep the old notebooks for the history of vehicles you don't see often. When one of those customers comes back,
+look them up in the notebook once, and add the useful history to the vehicle's **Vehicle Notes**.
+
+## Rules for the data
+
+- **Mobile numbers:** use `+353871234567`, or just `087 123 4567` and the import converts it. The mobile number is how
+  customers are matched, and WhatsApp needs it later.
+- **Registrations:** anything like `191d12345` is fine. It's saved as `191-D-12345`.
+- **GDPR:** leave the WhatsApp and marketing consent columns **blank** unless the customer actually agreed.
+  Ask for consent at their next visit.
+- **Customer data never goes in this GitHub repo.** `data/` is git-ignored, and the import refuses to run inside
+  GitHub Actions.

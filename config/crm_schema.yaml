@@ -1,0 +1,83 @@
+# CRM fields created by `python -m zoho_setup crm-schema`.
+#
+# Zoho derives a field's API name from its label (spaces -> underscores, punctuation dropped),
+# so every label here is chosen to produce the api_name the Deluge scripts expect.
+# `python -m zoho_setup validate` checks this.
+#
+# Modules must exist before fields can be added. Create the Vehicles and Job Cards modules
+# once in the CRM UI (see docs/01-crm-setup.md); the workflow stops and tells you if they are missing.
+#
+# Types: text, textarea, picklist, checkbox, date, datetime, integer, decimal, currency, phone, email, lookup
+
+modules:
+  Contacts:
+    fields:
+      - {label: Eircode, api_name: Eircode, type: text}
+      - {label: Customer Type, api_name: Customer_Type, type: picklist, values: [Private, Business, Fleet, Trade]}
+      - {label: Preferred Contact, api_name: Preferred_Contact, type: picklist, values: [WhatsApp, SMS, Call, Email]}
+      - {label: WhatsApp Consent, api_name: WhatsApp_Consent, type: checkbox}
+      - {label: Marketing Consent, api_name: Marketing_Consent, type: checkbox}
+      - {label: Consent Date, api_name: Consent_Date, type: date}
+
+  Vehicles:
+    fields:
+      - {label: Customer, api_name: Customer, type: lookup, module: Contacts}
+      - {label: Company, api_name: Company, type: lookup, module: Accounts}
+      - label: Make
+        api_name: Make
+        type: picklist
+        values: [Toyota, Volkswagen, Ford, Hyundai, Skoda, Nissan, Kia, BMW, Audi, Renault, Peugeot, Opel, Mercedes-Benz, Other]
+      - {label: Model, api_name: Model, type: text}
+      - {label: Year, api_name: Year, type: integer}
+      - {label: Fuel Type, api_name: Fuel_Type, type: picklist, values: [Petrol, Diesel, Hybrid, Plug-in Hybrid, Electric]}
+      - {label: Engine Size, api_name: Engine_Size, type: text}
+      - {label: Colour, api_name: Colour, type: text}
+      - {label: VIN, api_name: VIN, type: text}
+      - {label: Current Mileage, api_name: Current_Mileage, type: integer}
+      - {label: Last Service Date, api_name: Last_Service_Date, type: date}
+      - {label: Next Service Due, api_name: Next_Service_Due, type: date}
+      - {label: NCT Due, api_name: NCT_Due, type: date}
+      - {label: Tax Due, api_name: Tax_Due, type: date}
+      - {label: Vehicle Status, api_name: Vehicle_Status, type: picklist, values: [Active, Sold, Scrapped]}
+      - {label: Vehicle Notes, api_name: Vehicle_Notes, type: textarea}
+      - {label: Reg Check, api_name: Reg_Check, type: picklist, values: [OK, Check format]}
+
+  Job_Cards:
+    fields:
+      - {label: Vehicle, api_name: Vehicle, type: lookup, module: Vehicles}
+      - {label: Customer, api_name: Customer, type: lookup, module: Contacts}
+      - label: Stage
+        api_name: Stage
+        type: picklist
+        values: [Booked, In Workshop, Waiting Parts, Ready, Collected, Cancelled]
+      - label: Job Type
+        api_name: Job_Type
+        type: picklist
+        values: [Full Service, Interim Service, Repair, Diagnostic, NCT Prep, Tyres, Brakes, Clutch, Timing Belt, Other]
+      - {label: Booked For, api_name: Booked_For, type: datetime}
+      - {label: Mechanic, api_name: Mechanic, type: text}
+      - {label: Customer Complaint, api_name: Customer_Complaint, type: textarea}
+      - {label: Mileage In, api_name: Mileage_In, type: integer}
+      - {label: Work Done, api_name: Work_Done, type: textarea}
+      - {label: Advisories, api_name: Advisories, type: textarea}
+      - {label: Parts Awaited, api_name: Parts_Awaited, type: textarea}
+      - {label: Promised By, api_name: Promised_By, type: datetime}
+      - {label: Books Estimate ID, api_name: Books_Estimate_ID, type: text}
+      - {label: Books Estimate No, api_name: Books_Estimate_No, type: text}
+      - {label: Books Invoice No, api_name: Books_Invoice_No, type: text}
+      - {label: Payment Status, api_name: Payment_Status, type: picklist, values: [Not Invoiced, Invoiced, Paid, Account Customer]}
+      - {label: Cancel Reason, api_name: Cancel_Reason, type: text}
+      # Used by the data import to avoid creating the same historic job twice.
+      - {label: Import Key, api_name: Import_Key, type: text}
+
+# Things the API can't create. Printed as a checklist after every run.
+manual_steps:
+  - "CRM: create custom modules 'Vehicles' (record name = Registration, unique) and 'Job Cards' (record name = Job Number, auto-number JC-1001) - docs/01-crm-setup.md"
+  - "CRM: add the 'Job Lines' subform (Line Type, Description, Part No, Qty, Unit Price, Line Total) and the Job Total aggregate to Job Cards - docs/01 1.3"
+  - "CRM: set up related lists, layouts and custom views - docs/01 1.4-1.5"
+  - "CRM: build and publish the Job Cards Blueprint - docs/02-job-blueprint.md"
+  - "CRM: paste the deluge/*.dg functions and link them to workflow rules / Blueprint / the Create Quote button - docs/02 2.2, docs/03 3.5"
+  - "CRM: create the 'zbooks' connection and fill in the CONFIG block of create_books_estimate - docs/03 3.5"
+  - "Books: turn on the Zoho CRM integration and the Zoho Finance tab - docs/03 3.4"
+  - "Books: connect Stripe under Online Payments - docs/03 3.6"
+  - "Books: turn on Autoscan and set up supplier email forwarding - docs/04-supplier-bills.md"

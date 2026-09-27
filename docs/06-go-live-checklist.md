@@ -19,11 +19,12 @@
 - [ ] Stripe connected; test invoice paid with a real card and refunded
 - [ ] Estimate and invoice templates branded (logo, bank details, T&Cs, warranty text)
 - [ ] Document inbox address noted; Autoscan on; supplier email forwarding rules live
-- [ ] Vendors imported
+- [ ] Taxes, items and vendors created by the *Zoho setup* workflow (doc 07)
 
 ## Week 3: data and training
-- [ ] Customers, vehicles and last-visit history imported (doc 05)
-- [ ] Spot-check 20 random vehicles against the notebooks
+- [ ] Regulars, fleet customers and anyone due soon entered from the notebooks (doc 05, lane 2)
+- [ ] Spot-check 20 entered vehicles against the notebooks
+- [ ] Desk routine agreed: every new caller or walk-in is created in CRM on the spot (doc 05, lane 1)
 - [ ] Sandbox changes deployed to production
 - [ ] Staff walkthrough: book a job → check in → add lines → Create Quote → Ready → invoice → paid → Collected
 - [ ] Run **3 real jobs end to end** in parallel with paper

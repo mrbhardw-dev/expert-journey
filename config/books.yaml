@@ -1,0 +1,12 @@
+# Zoho Books configuration applied by `python -m zoho_setup books-config`.
+# VAT rates are the usual Irish motor-repair rates. Confirm them with your accountant
+# before running with --apply (docs/03-books-integration.md 3.2).
+
+taxes:
+  - {tax_name: VAT 13.5%, tax_percentage: 13.5}
+  - {tax_name: VAT 23%, tax_percentage: 23}
+  - {tax_name: VAT 0%, tax_percentage: 0}
+
+# Price list and supplier list (CSV so they're easy to edit in Excel).
+items_file: config/items.csv
+suppliers_file: config/suppliers.csv

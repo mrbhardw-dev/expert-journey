@@ -2,7 +2,7 @@
 
 ## 4.1 Set up suppliers (vendors)
 
-Purchases → Vendors → Import, using `templates/suppliers.csv`. List your motor factors,
+List them in `config/suppliers.csv` and let the *Zoho setup* workflow create them (doc 07), or use Purchases → Vendors → Import. List your motor factors,
 tyre suppliers, oil supplier, etc. For each vendor set:
 - a default expense account (e.g. *Cost of Goods Sold – Parts*, *Tyres*, *Consumables*)
 - a default tax (VAT 23% for most parts suppliers)

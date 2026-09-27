@@ -25,7 +25,7 @@ Booked ──► In Workshop ──► Ready ──► Collected        │
 | **Parts Arrived** | Waiting Parts → In Workshop | Advisor | none | none |
 | **Work Complete** | In Workshop → Ready | Advisor | Work Done, at least one Job Line, Advisories (can be "None") | Optional: email/SMS "your car is ready" |
 | **Collected** | Ready → Collected | Advisor | Payment Status, Books Invoice No. (unless Account Customer) | `deluge/job_card_on_collected.dg`: sets Last Service Date, Next Service Due, Current Mileage on the Vehicle |
-| **Cancel** | Booked / Waiting Parts → Cancelled | Advisor | Reason (add a `Cancel_Reason` field) | none |
+| **Cancel** | Booked / Waiting Parts → Cancelled | Advisor | Cancel Reason | none |
 
 Tips:
 - Add a **checklist** to *Work Complete*: road-tested, service light reset, stamped service book, wheel nuts torqued.

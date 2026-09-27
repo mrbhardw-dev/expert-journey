@@ -1,0 +1,7 @@
+# Customer data must never be committed (GDPR). Keep real import files here, locally.
+data/
+*.xlsx
+.env
+__pycache__/
+.pytest_cache/
+.venv/

@@ -1,5 +1,7 @@
 # 1. CRM data model
 
+> **Shortcut:** create the two modules by hand, then let the *Zoho setup* GitHub workflow create every field in the tables below (doc 07). Field labels must match exactly, because Zoho builds the API name from the label.
+
 Setup → Customization → Modules and Fields.
 
 ## 1.1 Contacts (existing module, used for customers)
@@ -27,7 +29,7 @@ Setup → Modules and Fields → **+ New Module** → name `Vehicles` (API name 
 | Field label | Type | API name | Notes |
 |---|---|---|---|
 | Registration | Single line (**record name**, unique) | `Name` | Rename the default "Vehicle Name" field. Mark it **Do not allow duplicate values**. Format `191-D-12345`. |
-| Owner (Customer) | Lookup → Contacts | `Customer` | Creates a "Vehicles" related list on the customer |
+| Customer | Lookup → Contacts | `Customer` | Creates a "Vehicles" related list on the customer |
 | Company | Lookup → Accounts | `Company` | Optional, for fleet vehicles |
 | Make | Picklist | `Make` | Toyota, Volkswagen, Ford, Hyundai, Skoda, Nissan, Kia, BMW, Audi, Renault, Peugeot, Opel, Mercedes-Benz, Other |
 | Model | Single line | `Model` | |
@@ -36,13 +38,14 @@ Setup → Modules and Fields → **+ New Module** → name `Vehicles` (API name 
 | Engine Size | Single line | `Engine_Size` | e.g. 1.6 |
 | Colour | Single line | `Colour` | |
 | VIN | Single line | `VIN` | 17 characters |
-| Current Mileage (km) | Number | `Current_Mileage` | Updated automatically when a job is collected |
+| Current Mileage | Number | `Current_Mileage` | Updated automatically when a job is collected |
 | Last Service Date | Date | `Last_Service_Date` | Automatic |
 | Next Service Due | Date | `Next_Service_Due` | Automatic: last service + 12 months (editable) |
 | NCT Due | Date | `NCT_Due` | Entered from the NCT cert/disc. Used for reminders later. |
 | Tax Due | Date | `Tax_Due` | Optional |
-| Status | Picklist | `Vehicle_Status` | Active, Sold, Scrapped |
-| Notes | Multi-line | `Vehicle_Notes` | e.g. "locking wheel nut in glovebox" |
+| Vehicle Status | Picklist | `Vehicle_Status` | Active, Sold, Scrapped |
+| Vehicle Notes | Multi-line | `Vehicle_Notes` |
+| Reg Check | Picklist | `Reg_Check` | OK, Check format. Set by `normalize_registration` | e.g. "locking wheel nut in glovebox" |
 
 **Registration format:** don't add a save-time validation rule, because it would reject quick entries like `191d12345`
 before they can be fixed. Instead, the `deluge/normalize_registration.dg` workflow function converts
@@ -63,18 +66,20 @@ New Module → `Job Cards` (API name `Job_Cards`).
 | Stage | Picklist | `Stage` | Booked, In Workshop, Waiting Parts, Ready, Collected, Cancelled. **Driven by the Blueprint** (see doc 02). |
 | Job Type | Picklist | `Job_Type` | Full Service, Interim Service, Repair, Diagnostic, NCT Prep, Tyres, Brakes, Clutch, Timing Belt, Other |
 | Booked For | Date/Time | `Booked_For` | |
-| Mechanic | User lookup | `Mechanic` | Or a picklist of names if mechanics have no CRM licence |
+| Mechanic | Single line | `Mechanic` | Mechanic's name (mechanics don't need a CRM licence) |
 | Customer Complaint | Multi-line | `Customer_Complaint` | What the customer says is wrong |
-| Mileage In (km) | Number | `Mileage_In` | Required when moving to In Workshop |
+| Mileage In | Number | `Mileage_In` | Required when moving to In Workshop |
 | Work Done | Multi-line | `Work_Done` | Required when moving to Ready |
 | Advisories | Multi-line | `Advisories` | Recommended future work (sell next visit) |
 | Parts Awaited | Multi-line | `Parts_Awaited` | Required when moving to Waiting Parts |
 | Promised By | Date/Time | `Promised_By` | |
 | Books Estimate ID | Single line (read-only) | `Books_Estimate_ID` | Set by the "Create Quote" button |
-| Books Estimate No. | Single line (read-only) | `Books_Estimate_No` | |
-| Books Invoice No. | Single line | `Books_Invoice_No` | |
+| Books Estimate No | Single line (read-only) | `Books_Estimate_No` | |
+| Books Invoice No | Single line | `Books_Invoice_No` | |
 | Payment Status | Picklist | `Payment_Status` | Not Invoiced, Invoiced, Paid, Account Customer |
 | Job Total (ex VAT) | Currency (formula or rollup) | `Job_Total` | Sum of line totals |
+| Cancel Reason | Single line | `Cancel_Reason` | Required on the Cancel transition |
+| Import Key | Single line | `Import_Key` | Used by the data import; hide from layouts |
 
 ### Subform: Job Lines (`Job_Lines`)
 

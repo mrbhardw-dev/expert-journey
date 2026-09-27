@@ -18,15 +18,26 @@ Follow these in order. Each step depends on the one before it.
 2. **[Job workflow (Blueprint)](docs/02-job-blueprint.md)**: Booked → In Workshop → Waiting Parts → Ready → Collected.
 3. **[Zoho Books + CRM sync](docs/03-books-integration.md)**: Irish VAT, items, sync, the "Create Quote" button and payments.
 4. **[Supplier bill capture](docs/04-supplier-bills.md)**: forward supplier emails to Books and let Autoscan turn them into bills.
-5. **[Data migration](docs/05-data-migration.md)**: import customers, vehicles and past jobs from Excel using the CSV templates in `templates/`.
+5. **[Paper records → Zoho](docs/05-data-migration.md)**: capture on next visit, enter regulars first, keep the notebooks as the archive.
 6. **[Go-live checklist](docs/06-go-live-checklist.md)**.
+7. **[Automated setup with GitHub Actions](docs/07-github-actions.md)**: creates the CRM fields, Books VAT rates, price list and suppliers for you.
+
+## Automation at a glance
+
+- **Validate** workflow: runs on every push and checks the config, templates and Deluge scripts. No credentials needed.
+- **Zoho setup** workflow: run it from the Actions tab. It's a dry run unless you tick *apply*, and it targets the CRM Sandbox unless you pick production.
+- Credentials live only in GitHub environment secrets. Customer data never goes in this repo.
 
 ## What's in the repo
 
 ```
-docs/        step-by-step setup guides
-templates/   CSV import templates (customers, vehicles, job history, suppliers)
-deluge/      Deluge scripts to paste into CRM (Setup → Developer Hub → Functions)
+docs/               step-by-step setup guides
+config/             what the automation creates: CRM fields, VAT rates, price list, suppliers
+templates/          CSV templates for typing up paper records (customers, vehicles, job history)
+deluge/             Deluge scripts to paste into CRM (Setup → Developer Hub → Functions)
+zoho_setup/         the Python tool behind the workflows (python -m zoho_setup --help)
+tests/              tests for the tool
+.github/workflows/  Validate (every push) and Zoho setup (manual)
 ```
 
 ## How the pieces fit

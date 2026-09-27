@@ -1,0 +1,58 @@
+name: Zoho setup
+
+# Run by hand from the Actions tab. Leave "apply" unticked for a dry run that only
+# shows what would change. Credentials come from the chosen GitHub environment's secrets.
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Where to set up (sandbox = CRM Sandbox + test Books org)"
+        type: choice
+        options: [sandbox, production]
+        default: sandbox
+      step:
+        description: "What to set up"
+        type: choice
+        options: [all, crm-schema, books-config]
+        default: all
+      apply:
+        description: "Apply changes (unticked = dry run, nothing is changed)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zoho-setup-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    # Add required reviewers to the "production" environment so production runs need approval.
+    environment: ${{ inputs.target }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Run setup
+        env:
+          ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
+          ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
+          ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
+          ZOHO_ACCOUNTS_URL: ${{ vars.ZOHO_ACCOUNTS_URL }}
+          ZOHO_CRM_API_DOMAIN: ${{ vars.ZOHO_CRM_API_DOMAIN }}
+          ZOHO_BOOKS_API_DOMAIN: ${{ vars.ZOHO_BOOKS_API_DOMAIN }}
+          ZOHO_BOOKS_ORG_ID: ${{ vars.ZOHO_BOOKS_ORG_ID }}
+          STEP: ${{ inputs.step }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          if [ "$APPLY" = "true" ]; then
+            python -m zoho_setup "$STEP" --apply
+          else
+            python -m zoho_setup "$STEP"
+          fi

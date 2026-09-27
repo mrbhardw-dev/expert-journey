@@ -32,7 +32,7 @@ Items → New. Create the common lines once, so quotes are quick and consistent:
 | Brake pads (front) | Goods | | 23% |
 | Sundries / consumables | Goods | | 23% |
 
-Put **your own** prices in. Import the full parts list later using Items → Import.
+Put **your own** prices in `config/items.csv`. The *Zoho setup* workflow creates the taxes and items for you (doc 07). Import the full parts list later using Items → Import.
 
 ## 3.4 Turn on the CRM ↔ Books sync
 

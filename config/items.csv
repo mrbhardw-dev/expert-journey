@@ -1,0 +1,10 @@
+Name,Type,Rate,Tax,Unit,SKU,Description
+Labour (per hour),service,75.00,VAT 13.5%,hrs,LAB-HR,Workshop labour
+Diagnostic check,service,60.00,VAT 13.5%,,LAB-DIAG,Fault code read and diagnosis
+Full Service - small car,service,180.00,VAT 13.5%,,SVC-FULL-S,Full service labour - up to 1.6L
+Interim Service - small car,service,120.00,VAT 13.5%,,SVC-INT-S,Interim service labour - up to 1.6L
+Engine oil (per litre),goods,12.00,VAT 23%,ltr,OIL-L,
+Oil filter,goods,12.00,VAT 23%,pcs,FLT-OIL,
+Air filter,goods,18.00,VAT 23%,pcs,FLT-AIR,
+Pollen filter,goods,20.00,VAT 23%,pcs,FLT-POL,
+Sundries / consumables,goods,8.00,VAT 23%,,SUNDRY,Cleaners and shop consumables

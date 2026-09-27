@@ -25,7 +25,7 @@ What has actually been built in the live Zoho account. Update this after each se
 - [x] Job Cards module created
 - [ ] Optional: tick *Do not allow duplicate values* on Vehicles → Registration
 - [x] Sign up for Zoho Books (done 2026-09-27)
-- [ ] Books → Settings → Taxes → tick *registered for VAT* and enter the VAT number (rates already exist; this is needed for VAT returns and to show the VAT no. on invoices)
+- [ ] (waiting on VAT number) Books → Settings → Taxes → tick *registered for VAT* and enter the VAT number (rates already exist; this is needed for VAT returns and to show the VAT no. on invoices)
 - [ ] Send real prices (`config/items.csv`) and supplier names (`config/suppliers.csv`)
 - [ ] Accountant confirms VAT 13.5% labour / 23% parts
 
@@ -40,7 +40,7 @@ What has actually been built in the live Zoho account. Update this after each se
 ## Remaining CRM setup (Zoho UI only: the connector has no API for these)
 Order matters. Do them top to bottom.
 1. [ ] Organise menu: rename Contacts → Customers, Accounts → Fleet & Business; hide unused modules
-2. [x] Job Cards → add **Job Lines** subform (Line Type, Description, Part No, Qty, Unit Price, Line Total) + **Job Total** aggregate (doc 01 §1.3). Line Type options renamed to Labour / Part / Sundry (stored values stay Option 1 / Option 2; script handles both). ⚠️ An extra Job Cards layout **M** was created by accident: delete it
+2. [x] Job Cards → add **Job Lines** subform (Line Type, Description, Part No, Qty, Unit Price, Line Total) + **Job Total** aggregate (doc 01 §1.3). Line Type options renamed to Labour / Part / Sundry (stored values stay Option 1 / Option 2; script handles both). Accidental extra layout **M** deleted (verified: only Standard remains)
 3. [ ] Custom views: Today's workshop, Waiting parts, Ready, Not paid, Service due 30 days, NCT due 60 days (doc 01 §1.5)
 4. [ ] Blueprint on Job Cards → Stage (doc 02)
 5. [ ] Functions + workflow rules: normalize_registration, job_card_on_create, job_card_check_in, job_card_on_collected (doc 02 §2.2)

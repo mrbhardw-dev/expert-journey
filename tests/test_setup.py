@@ -312,3 +312,20 @@ def test_crm_workflows_config_references_known_tasks():
         assert set(rule["tasks"]) <= keys
         for key in rule["tasks"]:
             assert next(t for t in config["tasks"] if t["key"] == key)["module"] == rule["module"]
+
+
+def test_crm_views_one_rejected_view_does_not_stop_the_rest():
+    from zoho_setup.client import ZohoError
+    config = {"views": {"Vehicles": [
+        {"name": "A", "fields": ["Name"]}, {"name": "B", "fields": ["Name"]}]}}
+
+    class Rejecting(FakeClient):
+        def post(self, path, params=None, json=None):
+            if json["custom_views"][0]["name"] == "A":
+                raise ZohoError("HTTP 400")
+            return {"custom_views": [{"status": "success"}]}
+
+    client = Rejecting({"/crm/v8/settings/fields": {"fields": [{"api_name": "Name", "id": "1"}]}}, dry_run=False)
+    report = Report(dry_run=False)
+    crm_views.sync(client, config, report)
+    assert [(n, o) for _, n, o, _ in report.rows] == [("Vehicles: A", "failed"), ("Vehicles: B", "created")]

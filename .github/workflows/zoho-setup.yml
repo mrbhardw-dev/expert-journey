@@ -6,10 +6,10 @@ on:
   workflow_dispatch:
     inputs:
       target:
-        description: "Where to set up (SuperGear Motors Ltd = live Zoho org; sandbox = CRM Sandbox + test Books org)"
+        description: "Where to set up (sandbox = CRM Sandbox + test Books org)"
         type: choice
-        options: ["SuperGear Motors Ltd", sandbox]
-        default: "SuperGear Motors Ltd"
+        options: [sandbox, production]
+        default: sandbox
       step:
         description: "What to set up"
         type: choice
@@ -30,7 +30,7 @@ concurrency:
 jobs:
   setup:
     runs-on: ubuntu-latest
-    # The "SuperGear Motors Ltd" environment (live org) has required reviewers, so its runs need approval.
+    # Add required reviewers to the "production" environment so production runs need approval.
     environment: ${{ inputs.target }}
     steps:
       - uses: actions/checkout@v4

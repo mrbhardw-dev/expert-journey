@@ -42,7 +42,7 @@ Every run is **safe to repeat**: anything that already exists is left alone and 
 
 ### 2. Create two GitHub environments
 
-Repo → **Settings → Environments → New environment**. Create `sandbox` and `SuperGear Motors Ltd` (the live org).
+Repo → **Settings → Environments → New environment**. Create `sandbox` and `production`.
 
 In each environment, add the following.
 
@@ -56,7 +56,7 @@ In each environment, add the following.
 
 **Variables** (Environment variables → Add variable):
 
-| Name | sandbox | SuperGear Motors Ltd |
+| Name | sandbox | production |
 |---|---|---|
 | `ZOHO_CRM_API_DOMAIN` | `https://sandbox.zohoapis.eu` | `https://www.zohoapis.eu` |
 | `ZOHO_BOOKS_API_DOMAIN` | `https://www.zohoapis.eu` | `https://www.zohoapis.eu` |
@@ -66,7 +66,7 @@ In each environment, add the following.
 Books has no sandbox. Create a second, free test organisation in Books (top-right org menu → *New organisation*)
 and use its ID for `sandbox`. The org ID is in Books → Settings → Organisation Profile.
 
-On the **SuperGear Motors Ltd** environment, tick **Required reviewers** and add yourself. A live run then waits
+On the **production** environment, tick **Required reviewers** and add yourself. A production run then waits
 for you to approve it.
 
 ### 3. Create the CRM Sandbox
@@ -82,7 +82,7 @@ modules there first (doc 01), because fields can only be added to modules that a
    Read the job summary: it lists what *would* be created, plus the manual checklist.
 3. Run again with **apply ticked**.
 4. Finish the manual steps in the sandbox and run the end-to-end test in doc 06.
-5. Repeat steps 2–4 with target `SuperGear Motors Ltd`.
+5. Repeat steps 2–4 with target `production`.
 
 If a module is missing, its fields are reported as `blocked`. Create the module in CRM and run again.
 
@@ -91,7 +91,7 @@ If a module is missing, its fields are reported as `blocked`. Create the module 
 ```bash
 pip install -r requirements.txt
 export ZOHO_CLIENT_ID=... ZOHO_CLIENT_SECRET=... ZOHO_REFRESH_TOKEN=... ZOHO_BOOKS_ORG_ID=...
-export ZOHO_CRM_API_DOMAIN=https://sandbox.zohoapis.eu   # leave unset for the live org
+export ZOHO_CRM_API_DOMAIN=https://sandbox.zohoapis.eu   # leave unset for production
 python -m zoho_setup all            # dry run
 python -m zoho_setup all --apply
 ```

@@ -38,6 +38,7 @@ Legend: ✅ done · 👤 owner clicks in Zoho · 🤖 Claude does it through the
 | # | Step | Who | Due |
 |---|---|---|---|
 | P2.1 | Send labour rate, prices, suppliers → Claude loads them into Books | 👤 → 🤖 | 1 Oct |
+| P2.1c | Service catalog in CRM (16 services, SKU-matched to Books) | 🤖 | ✅ |
 | P2.2 | Accountant confirms VAT rates | 👤 | 3 Oct |
 | P2.3 | Books: VAT registration on (VAT number) | 👤 | 3 Oct |
 | P2.4 | Link Books ↔ CRM | 🤝 | 6 Oct |

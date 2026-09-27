@@ -1,0 +1,17 @@
+SKU,Service Name,Price,Duration (min),VAT Rate
+LAB-HR,Labour (per hour),80.00,60,13.5%
+SVC-FULL-S,Full Service - small car (up to 1.6L),179.00,120,13.5%
+SVC-FULL-L,Full Service - large car (over 1.6L),229.00,150,13.5%
+SVC-INT,Interim Service,119.00,60,13.5%
+SVC-DIAG,Diagnostic / fault code check,65.00,60,13.5%
+SVC-NCT,NCT Prep Check,59.00,60,13.5%
+SVC-BRK-PAD,Brake pads - fitting (per axle),80.00,60,13.5%
+SVC-BRK-PD,Brake pads & discs - fitting (per axle),120.00,90,13.5%
+SVC-TYRE,Tyre fitting & balancing (per tyre),15.00,15,13.5%
+SVC-ALIGN,Wheel alignment (tracking),55.00,45,13.5%
+SVC-CLUTCH,Clutch replacement - labour,450.00,330,13.5%
+SVC-CAMBELT,Timing belt / cambelt kit - labour,350.00,270,13.5%
+SVC-BATT,Battery test & fitting,20.00,30,13.5%
+SVC-AIRCON,Air-con regas,89.00,60,13.5%
+SVC-PPI,Pre-purchase inspection,99.00,60,13.5%
+SVC-EVCHK,Hybrid / EV health check,89.00,60,13.5%

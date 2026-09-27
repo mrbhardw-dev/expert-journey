@@ -11,11 +11,12 @@ What has actually been built in the live Zoho account. Update this after each se
 **Live data in CRM:** 1 customer (Mritunjay Bhardwaj, id 1042240000000643985: email set, **mobile missing**),
 1 vehicle (181-KE-6745, BMW 530e 2018, 16,800 km, id 1042240000000643987), 0 job cards (first real = JC-1002),
 33 roadmap Tasks (P1.0–P5.1; only P1.0 Completed, P2.4 In Progress). Fleet Accounts: none.
-**Live data in Books:** 3 VAT rates, 28 items (labour €80 confirmed; rest ESTIMATED; items now also syncing to CRM Products), 2 vendors (Clane Motor Factors, Fergal Allen Motor Factors), 0 customers.
+**Live data in Books:** 3 VAT rates, 28 items (labour €80 confirmed; rest ESTIMATED; items now also syncing to CRM Products), 2 vendors (Clane Motor Factors, Fergal Allen Motor Factors; now also synced to CRM Vendors), 0 customers.
+**CRM Services (`Services__s`):** 16 services (LAB-HR + 15 SVC-*), prices = Books, custom fields `SKU` (unique) and `VAT_Rate`; see config/services.csv.
 
 **Waiting on the owner (check these first, in this order):**
 1. **Books sync set to Contacts** (currently syncs Accounts) → then verify Mritunjay appears in Books (task P2.4).
-2. **CRM Services module**: "Enable Services" clicked but module not present via API; owner to finish the setup wizard / send screenshot. Then Claude creates 16 services matching Books SKUs (SVC-*, LAB-HR).
+2. ~~CRM Services module~~ **done 27 Sep 14:45**: 16 services live. Owner: review prices/durations together with the Books items (P2.1b); a price change must be made in BOTH Books and CRM Services (same SKU).
 3. P1.2b: rename "Vehicle Owner"/"Job Card Owner" → "Handled By"; remove Email/Secondary Email from Vehicles + Job Cards (still pending when checked).
 4. P1.1: hide unused modules (Leads, Deals, Inventory group, etc.): still all visible.
 5. **VAT registration in Books (P2.3): number received (IE4393123CH, CRO 782596); owner must enter it in Books → Taxes → VAT Settings (no API) plus VAT registration date.** Also: accountant VAT confirmation (P2.2), owner price review (P2.1b), suppliers list (P2.1).
@@ -29,6 +30,7 @@ What has actually been built in the live Zoho account. Update this after each se
 - Job Lines qty field API name is `QTY` (not `Qty`).
 - Zoho CRM MCP: `deleteRecords` (bulk) fails with parse error; use `deleteRecord` one at a time.
 - Books `create_tax` rejects `country_code`; omit it.
+- Services module API name is `Services__s`. Required on create: Service_Name, Price, Duration (minutes), Location, Availability_Type, Members as `[{"Members": {"id": <user id>}}]`. Its built-in Tax picklist only has 0% placeholders, hence the custom VAT_Rate field.
 - Connector cannot create modules/layouts/Blueprint/workflows/functions/buttons/custom views/menu groups, or change settings/icons: owner clicks, Claude guides and verifies.
 
 ## Done
@@ -52,6 +54,7 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | Owner confirmed: labour €80/hr + VAT (Books item LAB-HR updated); suppliers Clane Motor Factors + Fergal Allen Motor Factors created in Books (contact details TBC); company CRO 782596 / VAT IE4393123CH recorded. Owner says 'normal VAT is 13.5%': pending decision whether parts on repair jobs should also be 13.5% | Claude via Zoho Books MCP |
 | 2026-09-27 | Sync re-test: edited Mritunjay (Customer_Type=Private) to trigger sync → still 0 customers in Books; confirms sync scope must be changed to Contacts in Books UI. Did NOT hand-create him in Books (would duplicate once sync fixed). Books org profile/VAT fields still blank at 14:10 | Claude via MCP |
 | 2026-09-27 | Books Organisation Profile saved by owner: logo, address Ballygoran Road, Maynooth, Co. Kildare W23 TR5X, Company ID label 'CRO' = 782596 (verified). VAT number NOT yet stored (tax_id / tax_reg_no still blank); phone blank | Owner in Books UI, verified by Claude |
+| 2026-09-27 | Service catalog: Services module enabled by owner; fields SKU (unique, 1042240000000657007) and VAT_Rate (13.5/23/0, 1042240000000657016) added; 16 services created matching the Books service items 1:1 (price, name, SKU), durations in minutes, provider = owner user, Mon–Fri business days. Prices still ESTIMATED except labour €80. config/services.csv + crm_schema.yaml updated | Claude via Zoho CRM MCP |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.

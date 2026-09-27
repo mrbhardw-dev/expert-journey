@@ -5,7 +5,7 @@ Two workflows live in `.github/workflows/`:
 | Workflow | Runs | Needs credentials | Does |
 |---|---|---|---|
 | **Validate** | automatically on every push | no | tests, config checks, CSV template checks, and checks that the Deluge scripts only use fields that exist |
-| **Zoho setup** | by hand (Actions tab → Zoho setup → Run workflow) | yes | creates CRM custom fields, CRM list views, Books VAT rates, the Books item price list and Books suppliers |
+| **SuperGear Motors Ltd** | by hand (Actions tab → SuperGear Motors Ltd → Run workflow) | yes | creates CRM custom fields, CRM list views, Books VAT rates, the Books item price list and Books suppliers |
 
 ## What gets automated and what doesn't
 
@@ -78,7 +78,7 @@ modules there first (doc 01), because fields can only be added to modules that a
 
 1. Edit `config/items.csv` with **your real prices** and `config/suppliers.csv` with your real suppliers,
    and **delete the example supplier row**. Commit. The Validate workflow checks them.
-2. Actions → **Zoho setup** → Run workflow → target `sandbox`, step `all`, apply **unticked**.
+2. Actions → **SuperGear Motors Ltd** → Run workflow → target `sandbox`, step `all`, apply **unticked**.
    Read the job summary: it lists what *would* be created, plus the manual checklist.
 3. Run again with **apply ticked**.
 4. Finish the manual steps in the sandbox and run the end-to-end test in doc 06.

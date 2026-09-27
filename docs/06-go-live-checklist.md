@@ -19,7 +19,7 @@
 - [ ] Stripe connected; test invoice paid with a real card and refunded
 - [ ] Estimate and invoice templates branded (logo, bank details, T&Cs, warranty text)
 - [ ] Document inbox address noted; Autoscan on; supplier email forwarding rules live
-- [ ] Taxes, items and vendors created by the *Zoho setup* workflow (doc 07)
+- [ ] Taxes, items and vendors created by the *SuperGear Motors Ltd* workflow (doc 07)
 
 ## Week 3: data and training
 - [ ] Regulars, fleet customers and anyone due soon entered from the notebooks (doc 05, lane 2)

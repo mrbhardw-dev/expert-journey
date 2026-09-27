@@ -1,6 +1,6 @@
 # 1. CRM data model
 
-> **Shortcut:** create the two modules by hand, then let the *Zoho setup* GitHub workflow create every field in the tables below (doc 07). Field labels must match exactly, because Zoho builds the API name from the label.
+> **Shortcut:** create the two modules by hand, then let the *SuperGear Motors Ltd* GitHub workflow create every field in the tables below (doc 07). Field labels must match exactly, because Zoho builds the API name from the label.
 
 Setup → Customization → Modules and Fields.
 

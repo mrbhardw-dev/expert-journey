@@ -89,7 +89,7 @@ New Module → `Job Cards` (API name `Job_Cards`).
 | Line Type | Picklist: Labour, Part, Sundry | `Line_Type` |
 | Description | Single line | `Description` |
 | Part No. | Single line | `Part_No` |
-| Qty / Hours | Decimal | `Qty` |
+| QTY (qty or hours) | Decimal | `QTY` |
 | Unit Price (ex VAT) | Currency | `Unit_Price` |
 | Line Total | Formula: `Qty * Unit_Price` | `Line_Total` |
 

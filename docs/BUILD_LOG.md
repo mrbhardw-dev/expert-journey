@@ -16,6 +16,7 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | Job Cards module created | Owner in CRM UI |
 | 2026-09-27 | Job Cards fields (19): Job_Number (auto-number JC-1001), Vehicle, Customer, Stage, Job_Type, Booked_For, Mechanic, Customer_Complaint, Mileage_In, Work_Done, Advisories, Parts_Awaited, Promised_By, Books_Estimate_ID, Books_Estimate_No, Books_Invoice_No, Payment_Status, Cancel_Reason, Import_Key (API names verified) | Claude via Zoho CRM MCP |
 | 2026-09-27 | End-to-end link check: throwaway Customer → Vehicle → Job Card created, Job_Number auto-filled (JC-1001), lookups OK; all three deleted. First real job will be JC-1002 | Claude via Zoho CRM MCP |
+| 2026-09-27 | Job Lines subform (Line_Type, Description, Part_No, QTY, Unit_Price, Line_Total formula) + Job_Total on Job Cards; Standard profile given access to Vehicles and Job Cards | Owner in CRM UI, verified by Claude |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.
@@ -30,7 +31,7 @@ What has actually been built in the live Zoho account. Update this after each se
 ## Next for Claude (once the above is done)
 - [x] Create the Vehicles fields (17)
 - [x] Create the Job Cards fields (19, incl. Job Number auto-number)
-- [ ] Add the *Job Lines* subform to Job Cards (UI only, doc 01 §1.3)
+- [x] Job Lines subform added
 - [ ] Create the Books VAT rates, items and suppliers
 - [ ] Walk through the Job Lines subform, Blueprint, Deluge functions and Books sync (docs 01–03)
 - [ ] Enter the first regular customers from notebook photos
@@ -38,7 +39,7 @@ What has actually been built in the live Zoho account. Update this after each se
 ## Remaining CRM setup (Zoho UI only: the connector has no API for these)
 Order matters. Do them top to bottom.
 1. [ ] Organise menu: rename Contacts → Customers, Accounts → Fleet & Business; hide unused modules
-2. [ ] Job Cards → add **Job Lines** subform (Line Type, Description, Part No, Qty, Unit Price, Line Total) + **Job Total** aggregate (doc 01 §1.3)
+2. [x] Job Cards → add **Job Lines** subform (Line Type, Description, Part No, Qty, Unit Price, Line Total) + **Job Total** aggregate (doc 01 §1.3). ⚠️ Line Type still has placeholder values Option 1/Option 2 → change to Labour, Part, Sundry
 3. [ ] Custom views: Today's workshop, Waiting parts, Ready, Not paid, Service due 30 days, NCT due 60 days (doc 01 §1.5)
 4. [ ] Blueprint on Job Cards → Stage (doc 02)
 5. [ ] Functions + workflow rules: normalize_registration, job_card_on_create, job_card_check_in, job_card_on_collected (doc 02 §2.2)

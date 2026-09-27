@@ -9,7 +9,7 @@ from . import books_config, crm_schema, importer, normalize
 # Fields the Deluge scripts use that are system fields or set up by hand (subform).
 DELUGE_KNOWN_FIELDS = {
     "Name", "First_Name", "Last_Name", "Email", "Mobile",
-    "Job_Lines", "Line_Type", "Description", "Part_No", "Qty", "Unit_Price",
+    "Job_Lines", "Line_Type", "Description", "Part_No", "QTY", "Unit_Price",
 }
 
 

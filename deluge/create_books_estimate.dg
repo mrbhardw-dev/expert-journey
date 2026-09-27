@@ -82,7 +82,7 @@ string button.create_books_estimate(String jobId)
 		{
 			li.put("description", "Part no. " + line.get("Part_No"));
 		}
-		li.put("quantity", ifnull(line.get("Qty"), 1).toDecimal());
+		li.put("quantity", ifnull(line.get("QTY"), 1).toDecimal());
 		li.put("rate", ifnull(line.get("Unit_Price"), 0).toDecimal());
 		if(lineType == "Labour")
 		{

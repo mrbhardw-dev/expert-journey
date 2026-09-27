@@ -4,6 +4,8 @@ Uses CRM API v8 as described in Zoho's own OpenAPI files (https://github.com/zoh
 POST /settings/automation/tasks and POST /settings/automation/workflow_rules
 (scopes ZohoCRM.settings.automation_actions.ALL, ZohoCRM.settings.workflow_rules.ALL).
 """
+from .client import ZohoError
+
 CRM = "/crm/v8"
 SECTION = "CRM workflows"
 
@@ -60,9 +62,13 @@ def rule_payload(spec, module_ids, fields, task_ids):
             "trigger_module": module, "field": _ref(fields, trig["field"]),
             "period": "days", "unit": trig["days"], "recur_cycle": "once"}}
     elif trig["type"] == "field_update":
+        # Shape follows Zoho's field_update example (crm-oas v8.0). match_all is required with this type;
+        # repeat must be false because scheduled actions are not allowed on repeating rules.
         execute_when = {"type": "field_update", "details": {
-            "trigger_module": module, "repeat": True,
-            "criteria": {"field": _ref(fields, trig["field"]), "comparator": "equal", "value": trig["value"]}}}
+            "trigger_module": module, "repeat": False, "match_all": True,
+            "criteria": {"group_operator": "AND", "group": [
+                {"field": _ref(fields, trig["field"]), "comparator": "equal", "type": "value",
+                 "value": trig["value"]}]}}}
     else:
         raise ValueError(f"unknown trigger type {trig['type']!r} in rule {spec['name']!r}")
 
@@ -141,8 +147,12 @@ def sync(client, config, report):
             report.add(SECTION, name, "failed", failed)
             continue
 
-        resp = client.post(f"{CRM}/settings/automation/workflow_rules",
-                           json=rule_payload(spec, module_ids, fields[module], task_ids))
+        try:
+            resp = client.post(f"{CRM}/settings/automation/workflow_rules",
+                               json=rule_payload(spec, module_ids, fields[module], task_ids))
+        except ZohoError as e:  # one rejected rule shouldn't stop the others
+            report.add(SECTION, name, "failed", str(e)[:300])
+            continue
         if resp is None:
             report.add(SECTION, name, "would create")
             continue

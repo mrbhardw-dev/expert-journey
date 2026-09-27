@@ -155,7 +155,7 @@ def test_books_dry_run_creates_only_missing():
     assert not any("Example Motor Factors" in name for name in outcomes)
     item_posts = [w for w in client.writes if w[1] == "/books/v3/items"]
     assert {"name": "Engine oil (per litre)", "rate": 12.0, "product_type": "goods",
-            "tax_id": "t23", "unit": "ltr", "sku": "OIL-L"} in [w[3] for w in item_posts]
+            "tax_id": "t23", "sku": "PRT-OIL-L"} in [w[3] for w in item_posts]
 
 
 # ---- import ----

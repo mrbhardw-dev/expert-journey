@@ -1,0 +1,57 @@
+# CRM list views (custom views) created by `python -m zoho_setup crm-views`. Safe to re-run:
+# a view whose name already exists is left alone.
+#
+# `criteria` uses Zoho's own filter format (CRM API v8, POST /settings/custom_views) with field
+# api_names only; the script looks up the field ids. Date placeholders: ${TODAY}, ${DUEINDAYS}+N.
+
+views:
+  Job_Cards:
+    - name: Today in the workshop  # no apostrophe: Zoho rejects some special characters in view names
+      fields: [Job_Number, Vehicle, Customer, Stage, Job_Type, Booked_For, Mechanic]
+      sort_by: Booked_For
+      criteria:
+        group_operator: and
+        group:
+          - {field: Booked_For, comparator: equal, value: "${TODAY}"}
+          - {field: Stage, comparator: not_equal, value: [Collected, Cancelled]}
+    - name: On the ramp
+      fields: [Job_Number, Vehicle, Customer, Job_Type, Mechanic, Promised_By]
+      sort_by: Promised_By
+      criteria: {field: Stage, comparator: equal, value: [In Workshop]}
+    - name: Waiting parts
+      fields: [Job_Number, Vehicle, Customer, Parts_Awaited, Promised_By]
+      sort_by: Promised_By
+      criteria: {field: Stage, comparator: equal, value: [Waiting Parts]}
+    - name: Ready - call customer
+      fields: [Job_Number, Vehicle, Customer, Job_Type, Job_Total, Payment_Status]
+      criteria: {field: Stage, comparator: equal, value: [Ready]}
+    - name: Not paid
+      fields: [Job_Number, Vehicle, Customer, Job_Total, Books_Invoice_No, Payment_Status]
+      criteria:
+        group_operator: and
+        group:
+          - {field: Stage, comparator: equal, value: [Collected]}
+          - {field: Payment_Status, comparator: not_equal, value: [Paid]}
+  Vehicles:
+    # "<= today + N days" also lists overdue vehicles, which is what the front desk wants to chase.
+    - name: Service due next 30 days
+      fields: [Name, Customer, Make, Model, Next_Service_Due, Current_Mileage]
+      sort_by: Next_Service_Due
+      sort_order: asc
+      criteria:
+        group_operator: and
+        group:
+          - {field: Next_Service_Due, comparator: less_equal, value: "${DUEINDAYS}+30"}
+          - {field: Vehicle_Status, comparator: equal, value: [Active]}
+    - name: NCT due next 60 days
+      fields: [Name, Customer, Make, Model, NCT_Due]
+      sort_by: NCT_Due
+      sort_order: asc
+      criteria:
+        group_operator: and
+        group:
+          - {field: NCT_Due, comparator: less_equal, value: "${DUEINDAYS}+60"}
+          - {field: Vehicle_Status, comparator: equal, value: [Active]}
+    - name: Registration to check
+      fields: [Name, Customer, Make, Model, Reg_Check]
+      criteria: {field: Reg_Check, comparator: equal, value: [Check format]}

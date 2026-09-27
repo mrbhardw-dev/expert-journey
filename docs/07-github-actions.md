@@ -5,13 +5,14 @@ Two workflows live in `.github/workflows/`:
 | Workflow | Runs | Needs credentials | Does |
 |---|---|---|---|
 | **Validate** | automatically on every push | no | tests, config checks, CSV template checks, and checks that the Deluge scripts only use fields that exist |
-| **Zoho setup** | by hand (Actions tab → Zoho setup → Run workflow) | yes | creates CRM custom fields, Books VAT rates, the Books item price list and Books suppliers |
+| **Zoho setup** | by hand (Actions tab → Zoho setup → Run workflow) | yes | creates CRM custom fields, CRM list views, Books VAT rates, the Books item price list and Books suppliers |
 
 ## What gets automated and what doesn't
 
 | Automated (Zoho has an API) | Manual (no Zoho API; printed as a checklist after every run) |
 |---|---|
 | ✅ CRM custom fields on Contacts, Vehicles, Job Cards (`config/crm_schema.yaml`) | Creating the Vehicles and Job Cards **modules** (one click each) |
+| ✅ CRM list views: Today in the workshop, Waiting parts, Not paid, Service/NCT due… (`config/crm_views.yaml`) | |
 | ✅ Books VAT rates (`config/books.yaml`) | Job Lines subform and the Job Total field |
 | ✅ Books items / price list (`config/items.csv`) | Blueprint, workflow rules, the Create Quote button |
 | ✅ Books suppliers (`config/suppliers.csv`) | Pasting the Deluge functions and creating the `zbooks` connection |
@@ -27,7 +28,7 @@ Every run is **safe to repeat**: anything that already exists is left alone and 
 2. Copy the **Client ID** and **Client Secret**.
 3. Click the *Generate Code* tab and paste in these scopes:
    ```
-   ZohoCRM.settings.modules.READ,ZohoCRM.settings.fields.ALL,ZohoCRM.modules.ALL,ZohoBooks.settings.ALL,ZohoBooks.contacts.ALL
+   ZohoCRM.settings.modules.READ,ZohoCRM.settings.fields.ALL,ZohoCRM.settings.custom_views.ALL,ZohoCRM.modules.ALL,ZohoBooks.settings.ALL,ZohoBooks.contacts.ALL
    ```
    Duration: 10 minutes. Description: `github setup`. Click Create and copy the **code**.
 4. Within 10 minutes, swap the code for a **refresh token** on your own computer:
@@ -94,6 +95,14 @@ export ZOHO_CRM_API_DOMAIN=https://sandbox.zohoapis.eu   # leave unset for produ
 python -m zoho_setup all            # dry run
 python -m zoho_setup all --apply
 ```
+
+## Where the API limits are
+
+Checked against Zoho's own OpenAPI files (https://github.com/zoho/crm-oas, v8.0), Sep 2026:
+list views, workflow rules, field updates, email alerts, webhooks, layouts (PATCH) and module labels/profiles
+have create/update APIs. **Blueprint setup, Deluge functions, buttons and hiding modules from the menu do not**,
+so they stay on the manual checklist. Workflow rules that run a Deluge function also need the function
+pasted by hand first.
 
 ## Relation to Zoho MCP
 

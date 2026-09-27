@@ -3,7 +3,7 @@ import os
 import pytest
 import yaml
 
-from zoho_setup import books_config, crm_schema, importer, normalize, validate
+from zoho_setup import books_config, crm_schema, crm_views, importer, normalize, validate
 from zoho_setup.__main__ import main
 from zoho_setup.report import Report
 
@@ -211,3 +211,32 @@ def test_import_refuses_in_ci(monkeypatch, tmp_path):
 
 def test_search_criteria_escaping():
     assert importer._escape("a(b),c") == r"a\(b\)\,c"
+
+
+# ---- crm views ----
+
+def test_crm_views_dry_run_skips_existing_blocks_missing_and_adds_ids():
+    config = load("crm_views.yaml")
+    job_fields = [a for v in config["views"]["Job_Cards"] for a in crm_views._used_fields(v)]
+    fields = {"Job_Cards": {"fields": [{"api_name": a, "id": f"id-{a}"} for a in set(job_fields)]},
+              "Vehicles": {"fields": [{"api_name": "Name", "id": "id-Name"}]}}
+    views = {"Job_Cards": {"custom_views": [{"name": "On the ramp"}]}}
+    client = FakeClient({
+        "/crm/v8/settings/fields": lambda p: fields[p["module"]],
+        "/crm/v8/settings/custom_views": lambda p: views.get(p["module"], {}),
+    })
+    report = Report(dry_run=True)
+    crm_views.sync(client, config, report)
+
+    outcome = {name: out for _, name, out, _ in report.rows}
+    assert outcome["Job_Cards: On the ramp"] == "exists"
+    assert outcome["Job_Cards: Not paid"] == "would create"
+    assert outcome["Vehicles: Service due next 30 days"] == "blocked"
+    posted = [w[3]["custom_views"][0] for w in client.writes]
+    assert "On the ramp" not in [v["name"] for v in posted]
+    today = next(v for v in posted if v["name"] == "Today in the workshop")
+    booked, stage = today["criteria"]["group"]
+    assert booked == {"field": {"api_name": "Booked_For", "id": "id-Booked_For"},
+                      "comparator": "equal", "value": "${TODAY}", "type": "pre_defined"}
+    assert stage["type"] == "value" and stage["value"] == ["Collected", "Cancelled"]
+    assert today["access_type"] == "public" and today["sort_by"]["id"] == "id-Booked_For"

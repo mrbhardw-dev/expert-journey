@@ -4,25 +4,25 @@ What has actually been built in the live Zoho account. Update this after each se
 
 **CRM org:** Supergear Motors Ltd. (org id 1042240000000023712), EU data centre, Europe/Dublin, EUR.
 **Edition:** Enterprise **trial, ends 12 Oct 2026**. After that it drops to the Free edition unless a plan is bought.
-**Books:** SuperGear Motors Ltd. (org id 20119876326), Ireland, EUR, Premium trial. **Company:** CRO 782596, VAT IE4393123CH. **VAT registration not switched on yet.** Connected to CRM (sync scope needs fixing).
+**Books:** SuperGear Motors Ltd. (org id 20119876326), Ireland, EUR, Premium trial. **Company:** CRO 782596, VAT IE4393123CH. **VAT registration not switched on yet.** Connected to CRM: CRM Contacts ↔ Books Customers, Vendors ↔ Vendors; Products↔Items paused.
 
-## ▶ RESUME HERE (last session: 27 Sep 2026, ~10:15)
+## ▶ RESUME HERE (last session: 27 Sep 2026, ~14:55)
 
 **Live data in CRM:** 1 customer (Mritunjay Bhardwaj, id 1042240000000643985: email set, **mobile missing**),
 1 vehicle (181-KE-6745, BMW 530e 2018, 16,800 km, id 1042240000000643987), 0 job cards (first real = JC-1002),
 33 roadmap Tasks (P1.0–P5.1; only P1.0 Completed, P2.4 In Progress). Fleet Accounts: none.
-**Live data in Books:** 3 VAT rates, 28 items (labour €80 confirmed; rest ESTIMATED; items now also syncing to CRM Products), 2 vendors (Clane Motor Factors, Fergal Allen Motor Factors; now also synced to CRM Vendors), 0 customers.
+**Live data in Books:** 3 VAT rates, 28 items (labour €80 confirmed; rest ESTIMATED; item sync to CRM Products now paused), 2 vendors (Clane Motor Factors, Fergal Allen Motor Factors; also synced to CRM Vendors), 1 customer (Mritunjay, synced from CRM, id 1426684000000073015).
 **CRM Services (`Services__s`):** 16 services (LAB-HR + 15 SVC-*), prices = Books, custom fields `SKU` (unique) and `VAT_Rate`; see config/services.csv.
 
 **Waiting on the owner (check these first, in this order):**
-1. **Books sync set to Contacts** (currently syncs Accounts) → then verify Mritunjay appears in Books (task P2.4).
-2. ~~CRM Services module~~ **done 27 Sep 14:45**: 16 services live. Owner: review prices/durations together with the Books items (P2.1b); a price change must be made in BOTH Books and CRM Services (same SKU).
-3. P1.2b: rename "Vehicle Owner"/"Job Card Owner" → "Handled By"; remove Email/Secondary Email from Vehicles + Job Cards (still pending when checked).
-4. P1.1: hide unused modules (Leads, Deals, Inventory group, etc.): still all visible.
+1. ~~Books sync set to Contacts~~ done 27 Sep 14:53, Mritunjay verified in Books. CRM task P2.4 marked Completed.
+2. ~~CRM Services module~~ **done 27 Sep 14:45**: 16 services live (re-verified 15:05 against config/items.csv). Owner: review prices/durations together with the Books items (P2.1b); a price change must be made in BOTH Books and CRM Services (same SKU).
+3. ~~P1.2b~~ done 15:20: Vehicles + Job Cards Owner → "Handled By"; Secondary Email removed from both; owner chose to KEEP Email + Email Opt Out (verified via API).
+4. P1.1: hide unused modules: owner chose NOT to hide for now (27 Sep). Don't re-ask; revisit later.
 5. **VAT registration in Books (P2.3): number received (IE4393123CH, CRO 782596); owner must enter it in Books → Taxes → VAT Settings (no API) plus VAT registration date.** Also: accountant VAT confirmation (P2.2), owner price review (P2.1b), suppliers list (P2.1).
 6. **P1.9 buy paid CRM plan before 12 Oct 2026.**
 
-**Next build steps with Claude guiding:** P1.3 Blueprint → P1.5 Deluge scripts → P1.6 saved lists → P2.5 Create Quote button.
+**Next build steps:** P1.6 saved lists now automated: `python -m zoho_setup crm-views` (config/crm_views.yaml, CRM API v8 custom_views POST, found in github.com/zoho/crm-oas). Needs the owner to create the Zoho API client + GitHub secrets (docs/07) first; not yet run against live CRM. Then P1.3 Blueprint → P1.5 Deluge scripts → P2.5 Create Quote button (no API, manual).
 
 **Gotchas learned:**
 - Clicking "customize layout" and being asked for a *layout name* = creating a NEW layout. Cancel; edit "Standard".
@@ -59,6 +59,8 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | Zoho Mail mailbox info@supergearmotors.ie created by owner. Re-check: MX Zoho ~45% / Hostinger ~55% of lookups (inbound mail unreliable until Hostinger zone updated or nameservers settled); SPF still Hostinger; DKIM (zmail._domainkey) not set. Next: owner updates Hostinger MX+TXT, SPF `v=spf1 include:zohomail.eu ~all` in both zones, DKIM selector zmail; then connect info@ to CRM (Setup → Channels → Email) and Books sender | Owner, checked by Claude |
 | 2026-09-27 | Confirmed: supergearmotors.ie nameservers are **Hostinger** (ns1/ns2.dns-parking.com); Hosting Ireland is registrar only and its zone is not live. Decision: keep DNS at Hostinger (website is there). All Zoho Mail records (MX mx/mx2/mx3.zoho.eu, verification TXT, SPF `v=spf1 include:zohomail.eu ~all`, DKIM `zmail._domainkey`) go in Hostinger hPanel | Owner / Claude |
 | 2026-09-27 | Owner has no Hostinger login (website is a Hostinger-built site: www CNAME www.supergearmotors.ie.cdn.hstgr.net, apex on rotating Hostinger CDN IPs). Plan changed to move DNS to Hosting Ireland: first fix HI zone (apex A 185.43.232.251 → 191.101.104.246 + 195.35.60.196; www CNAME → www.supergearmotors.ie.cdn.hstgr.net; Zoho MX/TXT/SPF/DKIM), Claude reviews, then owner sets nameservers ns1/ns2.webhostingireland.ie. Risk: pinned apex IPs may change; find who owns the Hostinger account | Owner / Claude |
+| 2026-09-27 | Books↔CRM sync switched Accounts → **Contacts** (duplicates: Skip, view: All Contacts); Products↔Items sync **paused**. Org Address Format already contains Company ID + Tax ID placeholders (saved). Verified: Mritunjay synced into Books as customer (is_linked_with_zohocrm) | Claude via Chrome, verified via Zoho Books MCP |
+| 2026-09-27 | Books → Taxes → Tax Settings: Tax Registration Number type VAT = 4393123CH is saved (seen on fresh page load). Note: org API still returns tax_reg_no blank / is_tax_registered false, so verify on a test invoice PDF | Checked by Claude via Chrome |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.

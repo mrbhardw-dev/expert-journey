@@ -20,6 +20,7 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | Books VAT rates: VAT 13.5% (1426684000000064001), VAT 23% (1426684000000065001), VAT 0% (1426684000000063002); IDs filled into create_books_estimate.dg | Claude via Zoho Books MCP |
 | 2026-09-27 | Contacts renamed Customers, Accounts renamed Fleet Accounts (API names unchanged) | Owner in CRM UI, verified by Claude |
 | 2026-09-27 | 16 owner Tasks created in CRM with step-by-step instructions: paid plan (due 9 Oct), VAT registration, accountant VAT check, hide modules, Operations group, Blueprint, scripts, saved lists, Books↔CRM link, Create Quote button, Stripe, supplier auto-scan, send prices, branding, enter regulars, GDPR consent | Claude via Zoho CRM MCP |
+| 2026-09-27 | Operations menu group done by owner (task marked Completed). Unused modules still visible org-wide. Task added: connect Gmail to CRM | Owner / Claude via MCP |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.

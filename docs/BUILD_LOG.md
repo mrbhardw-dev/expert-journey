@@ -21,6 +21,7 @@ What has actually been built in the live Zoho account. Update this after each se
 4. P1.1: hide unused modules: owner chose NOT to hide for now (27 Sep). Don't re-ask; revisit later.
 5. **VAT registration in Books (P2.3): number received (IE4393123CH, CRO 782596); owner must enter it in Books → Taxes → VAT Settings (no API) plus VAT registration date.** Also: accountant VAT confirmation (P2.2), owner price review (P2.1b), suppliers list (P2.1).
 6. **P1.9 buy paid CRM plan before 12 Oct 2026.**
+7. **DNS (parked by owner, revisit):** owner removed ns1/ns2.dns-parking.com in Hosting Ireland panel, but .ie registry still lists them (checked ~16:30). If still there: owner asks Hosting Ireland support to push the NS update. Until then some mail to info@ lands in old Hostinger mailbox. Then check site TLS cert (expired 28 May 2026).
 
 **Next build steps:** P1.6 saved lists now automated: `python -m zoho_setup crm-views` (config/crm_views.yaml, CRM API v8 custom_views POST, found in github.com/zoho/crm-oas). Needs the owner to create the Zoho API client + GitHub secrets (docs/07) first; not yet run against live CRM. Then P1.3 Blueprint → P1.5 Deluge scripts → P2.5 Create Quote button (no API, manual).
 

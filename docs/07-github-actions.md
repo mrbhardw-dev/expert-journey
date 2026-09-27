@@ -76,6 +76,13 @@ modules there first (doc 01), because fields can only be added to modules that a
 
 ## Running it
 
+**Easiest: through a pull request.** Change a file in `config/` (for example add a list view to
+`config/crm_views.yaml`) on a branch and open a pull request. GitHub then does a **dry run** against the live
+org and shows what would change (Actions tab → the run → Summary). Merge the pull request and GitHub
+**applies** it. Both wait for your approval on the `production` environment (Review deployments → Approve).
+
+**By hand** (Actions → SuperGear Motors Ltd → Run workflow):
+
 1. Edit `config/items.csv` with **your real prices** and `config/suppliers.csv` with your real suppliers,
    and **delete the example supplier row**. Commit. The Validate workflow checks them.
 2. Actions → **SuperGear Motors Ltd** → Run workflow → target `sandbox`, step `all`, apply **unticked**.

@@ -10,3 +10,11 @@ taxes:
 # Price list and supplier list (CSV so they're easy to edit in Excel).
 items_file: config/items.csv
 suppliers_file: config/suppliers.csv
+
+# Custom fields on quotes and invoices, printed on the PDF. Created live on 27 Sep 2026 (not managed by the tool yet).
+# The Create Quote button (deluge/create_books_estimate.dg) fills the quote fields; Books copies them to the invoice.
+custom_fields:
+  - {entity: estimate, label: Vehicle Reg, api_name: cf_vehicle_reg, type: string, id: "1426684000000070030"}
+  - {entity: estimate, label: Mileage (km), api_name: cf_mileage_km, type: number, id: "1426684000000072009"}
+  - {entity: invoice, label: Vehicle Reg, api_name: cf_vehicle_reg, type: string, id: "1426684000000070032"}
+  - {entity: invoice, label: Mileage (km), api_name: cf_mileage_km, type: number, id: "1426684000000076001"}

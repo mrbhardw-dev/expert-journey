@@ -7,6 +7,8 @@ string button.create_books_estimate(String jobId)
 	BOOKS_ORG_ID = "20119876326";             // Books → Settings → Organisation Profile
 	TAX_ID_LABOUR = "1426684000000064001"; // VAT 13.5% tax id
 	TAX_ID_PARTS = "1426684000000065001";  // VAT 23% tax id
+	CF_VEHICLE_REG = "1426684000000070030"; // Quote custom field "Vehicle Reg" (cf_vehicle_reg)
+	CF_MILEAGE = "1426684000000072009";     // Quote custom field "Mileage (km)" (cf_mileage_km)
 	CONN = "zbooks";
 	// ----------------------------------------
 
@@ -118,6 +120,20 @@ string button.create_books_estimate(String jobId)
 	est.put("expiry_date", zoho.currentdate.addDay(30).toString("yyyy-MM-dd"));
 	est.put("line_items", items);
 	est.put("notes", notes);
+	// Books custom fields on quotes, printed on the PDF (IDs from Books → Settings → Preferences → Quotes → Field Customization)
+	cfs = List();
+	if(vehicleName != "")
+	{
+		cfs.add({"customfield_id":CF_VEHICLE_REG,"value":vehicleName});
+	}
+	if(job.get("Mileage_In") != null)
+	{
+		cfs.add({"customfield_id":CF_MILEAGE,"value":job.get("Mileage_In")});
+	}
+	if(cfs.size() > 0)
+	{
+		est.put("custom_fields", cfs);
+	}
 	resp = zoho.books.createRecord("estimates", BOOKS_ORG_ID, est, CONN);
 	if(resp.get("code") != 0)
 	{

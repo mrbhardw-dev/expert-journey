@@ -24,7 +24,8 @@ Legend: ✅ done · 👤 owner clicks in Zoho · 🤖 Claude does it through the
 |---|---|---|---|
 | P1.0 | "Operations" menu group | 🤝 | ✅ |
 | P1.1 | Hide unused modules (Leads, Deals, Inventory group, etc.) | 👤 | 29 Sep |
-| P1.2 | Connect Gmail to CRM | 👤 | 30 Sep |
+| P1.2 | Connect info@supergearmotors.ie (Zoho Mail) to CRM | 👤 | 30 Sep |
+| P1.2c | Finish the domain switch to Hosting Ireland (email + website) | 👤 | 1 Oct |
 | P1.2b | Rename "Vehicle/Job Card Owner" → "Handled By"; remove Email fields from Vehicles/Job Cards | 🤝 | 30 Sep |
 | P1.3 | Job workflow (Blueprint): Booked → In Workshop → Waiting Parts → Ready → Collected | 🤝 | 2 Oct |
 | P1.4 | Block duplicate registrations and mobiles | 👤 | 2 Oct |
@@ -46,6 +47,7 @@ Legend: ✅ done · 👤 owner clicks in Zoho · 🤖 Claude does it through the
 | P2.6 | Stripe card payments | 👤 | 10 Oct |
 | P2.7 | Supplier invoices: auto-scan + email forwarding | 👤 | 10 Oct |
 | P2.8 | Logo, bank details, T&Cs on quotes/invoices | 👤 | 10 Oct |
+| P2.9 | Books sends quotes/invoices from info@supergearmotors.ie | 👤 | 3 Oct |
 
 ## Phase 3 — Go live (target: 20 Oct)
 | # | Step | Who | Due |

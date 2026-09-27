@@ -39,7 +39,7 @@ What has actually been built in the live Zoho account. Update this after each se
 ## Remaining CRM setup (Zoho UI only: the connector has no API for these)
 Order matters. Do them top to bottom.
 1. [ ] Organise menu: rename Contacts → Customers, Accounts → Fleet & Business; hide unused modules
-2. [x] Job Cards → add **Job Lines** subform (Line Type, Description, Part No, Qty, Unit Price, Line Total) + **Job Total** aggregate (doc 01 §1.3). ⚠️ Line Type still has placeholder values Option 1/Option 2 → change to Labour, Part, Sundry
+2. [x] Job Cards → add **Job Lines** subform (Line Type, Description, Part No, Qty, Unit Price, Line Total) + **Job Total** aggregate (doc 01 §1.3). Line Type options renamed to Labour / Part / Sundry (stored values stay Option 1 / Option 2; script handles both). ⚠️ An extra Job Cards layout **M** was created by accident: delete it
 3. [ ] Custom views: Today's workshop, Waiting parts, Ready, Not paid, Service due 30 days, NCT due 60 days (doc 01 §1.5)
 4. [ ] Blueprint on Job Cards → Stage (doc 02)
 5. [ ] Functions + workflow rules: normalize_registration, job_card_on_create, job_card_check_in, job_card_on_collected (doc 02 §2.2)

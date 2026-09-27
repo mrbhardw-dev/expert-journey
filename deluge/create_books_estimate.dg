@@ -84,7 +84,8 @@ string button.create_books_estimate(String jobId)
 		}
 		li.put("quantity", ifnull(line.get("QTY"), 1).toDecimal());
 		li.put("rate", ifnull(line.get("Unit_Price"), 0).toDecimal());
-		if(lineType == "Labour")
+		// Zoho kept the original stored values when the options were renamed: Labour = "Option 1", Part = "Option 2".
+		if(lineType == "Labour" || lineType == "Option 1")
 		{
 			li.put("tax_id", TAX_ID_LABOUR);
 		}

@@ -60,7 +60,8 @@ New Module → `Job Cards` (API name `Job_Cards`).
 
 | Field label | Type | API name | Notes |
 |---|---|---|---|
-| Job Number | **Auto-number** (record name) | `Name` | Prefix `JC-`, start `1001` |
+| Job Card Name | Single line (record name) | `Name` | Short title typed by staff, e.g. "Service – 191-D-12345" |
+| Job Number | Auto-number | `Job_Number` | Prefix `JC-`, start `1001`. Fills itself in |
 | Vehicle | Lookup → Vehicles | `Vehicle` | Required. Creates the service history list on the Vehicle. |
 | Customer | Lookup → Contacts | `Customer` | Auto-filled from Vehicle by `deluge/job_card_on_create.dg` |
 | Stage | Picklist | `Stage` | Booked, In Workshop, Waiting Parts, Ready, Collected, Cancelled. **Driven by the Blueprint** (see doc 02). |

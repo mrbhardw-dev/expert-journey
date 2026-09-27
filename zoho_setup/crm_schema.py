@@ -2,6 +2,7 @@
 CRM = "/crm/v6"
 
 TYPE_MAP = {
+    "autonumber": "autonumber",
     "text": "text",
     "textarea": "textarea",
     "picklist": "picklist",
@@ -28,6 +29,8 @@ def field_payload(spec):
         payload["pick_list_values"] = [
             {"display_value": v, "actual_value": v} for v in spec["values"]
         ]
+    if kind == "autonumber":
+        payload["auto_number"] = {"prefix": spec.get("prefix", ""), "start_number": str(spec.get("start", "1")), "suffix": ""}
     if kind == "lookup":
         payload["lookup"] = {"module": {"api_name": spec["module"]}}
     return payload

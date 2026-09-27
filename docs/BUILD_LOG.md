@@ -13,11 +13,13 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | Vehicles module created; record name relabelled *Registration* | Owner in CRM UI |
 | 2026-09-27 | Vehicles fields (17): Customer, Company, Make, Model, Year, Fuel_Type, Engine_Size, Colour, VIN, Current_Mileage, Last_Service_Date, Next_Service_Due, NCT_Due, Tax_Due, Vehicle_Status, Vehicle_Notes, Reg_Check (API names verified) | Claude via Zoho CRM MCP |
 | 2026-09-27 | Removed Zoho's 63 sample records (10 Leads, 10 Contacts, 10 Accounts, 10 Deals, 12 Tasks, 9 Meetings, 2 Calls). All modules verified empty; Books had none | Claude via Zoho CRM MCP |
+| 2026-09-27 | Job Cards module created | Owner in CRM UI |
+| 2026-09-27 | Job Cards fields (19): Job_Number (auto-number JC-1001), Vehicle, Customer, Stage, Job_Type, Booked_For, Mechanic, Customer_Complaint, Mileage_In, Work_Done, Advisories, Parts_Awaited, Promised_By, Books_Estimate_ID, Books_Estimate_No, Books_Invoice_No, Payment_Status, Cancel_Reason, Import_Key (API names verified) | Claude via Zoho CRM MCP |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.
 - [x] Vehicles module created
-- [ ] **Job Cards module**: name it Job Card / Job Cards and Save
+- [x] Job Cards module created
 - [ ] Optional: tick *Do not allow duplicate values* on Vehicles → Registration
 - [x] Sign up for Zoho Books (done 2026-09-27)
 - [ ] Books → Settings → Taxes → tick *registered for VAT* and enter the VAT number (needed before VAT rates can be created)
@@ -26,7 +28,9 @@ What has actually been built in the live Zoho account. Update this after each se
 
 ## Next for Claude (once the above is done)
 - [x] Create the Vehicles fields (17)
-- [ ] Create the Job Cards fields (18) + a *Job Number* auto-number (JC-1001)
+- [x] Create the Job Cards fields (19, incl. Job Number auto-number)
+- [ ] Add the *Job Lines* subform to Job Cards (UI only, doc 01 §1.3)
+- [ ] End-to-end test with the owner as test customer
 - [ ] Create the Books VAT rates, items and suppliers
 - [ ] Walk through the Job Lines subform, Blueprint, Deluge functions and Books sync (docs 01–03)
 - [ ] Enter the first regular customers from notebook photos

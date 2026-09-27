@@ -112,7 +112,7 @@ string button.create_books_estimate(String jobId)
 	}
 	est = Map();
 	est.put("customer_id", booksCustomerId);
-	est.put("reference_number", job.get("Name"));
+	est.put("reference_number", ifnull(job.get("Job_Number"), job.get("Name")));
 	est.put("date", zoho.currentdate.toString("yyyy-MM-dd"));
 	est.put("expiry_date", zoho.currentdate.addDay(30).toString("yyyy-MM-dd"));
 	est.put("line_items", items);

@@ -7,7 +7,7 @@
 # Modules must exist before fields can be added. Create the Vehicles and Job Cards modules
 # once in the CRM UI (see docs/01-crm-setup.md); the workflow stops and tells you if they are missing.
 #
-# Types: text, textarea, picklist, checkbox, date, datetime, integer, decimal, currency, phone, email, lookup
+# Types: autonumber, text, textarea, picklist, checkbox, date, datetime, integer, decimal, currency, phone, email, lookup
 
 modules:
   Contacts:
@@ -44,6 +44,7 @@ modules:
 
   Job_Cards:
     fields:
+      - {label: Job Number, api_name: Job_Number, type: autonumber, prefix: JC-, start: "1001"}
       - {label: Vehicle, api_name: Vehicle, type: lookup, module: Vehicles}
       - {label: Customer, api_name: Customer, type: lookup, module: Contacts}
       - label: Stage
@@ -72,7 +73,7 @@ modules:
 
 # Things the API can't create. Printed as a checklist after every run.
 manual_steps:
-  - "CRM: create custom modules 'Vehicles' (record name = Registration, unique) and 'Job Cards' (record name = Job Number, auto-number JC-1001) - docs/01-crm-setup.md"
+  - "CRM: create custom modules 'Vehicles' (record name = Registration, unique) and 'Job Cards' (the Job Number auto-number field is created by the script) - docs/01-crm-setup.md"
   - "CRM: add the 'Job Lines' subform (Line Type, Description, Part No, Qty, Unit Price, Line Total) and the Job Total aggregate to Job Cards - docs/01 1.3"
   - "CRM: set up related lists, layouts and custom views - docs/01 1.4-1.5"
   - "CRM: build and publish the Job Cards Blueprint - docs/02-job-blueprint.md"

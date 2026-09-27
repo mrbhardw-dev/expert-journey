@@ -22,6 +22,12 @@ Follow these in order. Each step depends on the one before it.
 6. **[Go-live checklist](docs/06-go-live-checklist.md)**.
 7. **[Automated setup with GitHub Actions](docs/07-github-actions.md)**: creates the CRM fields, Books VAT rates, price list and suppliers for you.
 
+## Build with Claude + Zoho MCP
+
+The Zoho CRM and Zoho Books connectors let Claude do the setup and data entry directly.
+[`claude-project/project-instructions.md`](claude-project/project-instructions.md) sets up a Claude.ai Project for
+this, and [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) tracks what's been built and what's next.
+
 ## Automation at a glance
 
 - **Validate** workflow: runs on every push and checks the config, templates and Deluge scripts. No credentials needed.

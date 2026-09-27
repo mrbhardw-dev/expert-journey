@@ -284,6 +284,10 @@ def test_crm_workflows_dry_run():
     assert service["execute_when"]["type"] == "date_or_datetime"
     assert service["execute_when"]["details"]["unit"] == -14
     assert service["conditions"][0]["criteria_details"]["criteria"]["value"] == "Active"
+    ready = rules["Ready but not collected"]["execute_when"]
+    assert ready["type"] == "field_update" and ready["details"]["match_all"] is True
+    assert ready["details"]["repeat"] is False
+    assert ready["details"]["criteria"]["group"][0]["value"] == "Ready"
     unpaid = rules["Collected but not paid"]["conditions"][0]
     assert unpaid["scheduled_actions"][0]["execute_after"] == {"period": "days", "unit": 3}
     assert unpaid["criteria_details"]["criteria"]["value"] == ["Paid", "Account Customer"]

@@ -45,7 +45,7 @@ Insert the merge fields with the template editor's "Insert merge field" button, 
 >
 > Hi {First Name},
 > Good news: your car is ready for collection at SuperGear Motors, Ballygoran Road, Maynooth.
-> We're open Monday to Friday. Your invoice will be sent separately and can be paid by card on collection or online.
+> Let us know when suits you to collect it. Your invoice will follow by email.
 > Thanks,
 > SuperGear Motors · info@supergearmotors.ie
 

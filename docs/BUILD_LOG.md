@@ -23,6 +23,7 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | Operations menu group done by owner (task marked Completed). Unused modules still visible org-wide. Task added: connect Gmail to CRM | Owner / Claude via MCP |
 | 2026-09-27 | Full roadmap: 31 CRM Tasks numbered P1.0–P5.1 (see docs/ROADMAP.md). First real vehicle 181KE6745 re-formatted to 181-KE-6745 | Claude via Zoho CRM MCP |
 | 2026-09-27 | Books price list: 28 items with ESTIMATED prices (16 labour/services @13.5%, 12 parts @23%, SKUs LAB-/SVC-/PRT-); config/items.csv updated to match; task P2.1b for owner to confirm prices. CRM Services module not yet enabled (owner) | Claude via Zoho Books MCP |
+| 2026-09-27 | Books↔CRM integration connected by owner, but syncing Accounts not Contacts (P2.4 In Progress). Placeholder Fleet Account 'SuperGear Customers' deleted from CRM + Books (owner approved); vehicle 181-KE-6745 unlinked from it first, still linked to customer | Owner / Claude via MCP |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.

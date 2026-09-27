@@ -18,6 +18,8 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | End-to-end link check: throwaway Customer → Vehicle → Job Card created, Job_Number auto-filled (JC-1001), lookups OK; all three deleted. First real job will be JC-1002 | Claude via Zoho CRM MCP |
 | 2026-09-27 | Job Lines subform (Line_Type, Description, Part_No, QTY, Unit_Price, Line_Total formula) + Job_Total on Job Cards; Standard profile given access to Vehicles and Job Cards | Owner in CRM UI, verified by Claude |
 | 2026-09-27 | Books VAT rates: VAT 13.5% (1426684000000064001), VAT 23% (1426684000000065001), VAT 0% (1426684000000063002); IDs filled into create_books_estimate.dg | Claude via Zoho Books MCP |
+| 2026-09-27 | Contacts renamed Customers, Accounts renamed Fleet Accounts (API names unchanged) | Owner in CRM UI, verified by Claude |
+| 2026-09-27 | 16 owner Tasks created in CRM with step-by-step instructions: paid plan (due 9 Oct), VAT registration, accountant VAT check, hide modules, Operations group, Blueprint, scripts, saved lists, Books↔CRM link, Create Quote button, Stripe, supplier auto-scan, send prices, branding, enter regulars, GDPR consent | Claude via Zoho CRM MCP |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.
@@ -39,7 +41,7 @@ What has actually been built in the live Zoho account. Update this after each se
 
 ## Remaining CRM setup (Zoho UI only: the connector has no API for these)
 Order matters. Do them top to bottom.
-1. [ ] Organise menu: rename Contacts → Customers, Accounts → Fleet & Business; hide unused modules
+1. [ ] Organise menu: ~~rename~~ done; hide unused modules; Operations group
 2. [x] Job Cards → add **Job Lines** subform (Line Type, Description, Part No, Qty, Unit Price, Line Total) + **Job Total** aggregate (doc 01 §1.3). Line Type options renamed to Labour / Part / Sundry (stored values stay Option 1 / Option 2; script handles both). Accidental extra layout **M** deleted (verified: only Standard remains)
 3. [ ] Custom views: Today's workshop, Waiting parts, Ready, Not paid, Service due 30 days, NCT due 60 days (doc 01 §1.5)
 4. [ ] Blueprint on Job Cards → Stage (doc 02)

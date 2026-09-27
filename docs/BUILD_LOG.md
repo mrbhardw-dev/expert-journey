@@ -4,7 +4,32 @@ What has actually been built in the live Zoho account. Update this after each se
 
 **CRM org:** Supergear Motors Ltd. (org id 1042240000000023712), EU data centre, Europe/Dublin, EUR.
 **Edition:** Enterprise **trial, ends 12 Oct 2026**. After that it drops to the Free edition unless a plan is bought.
-**Books:** SuperGear Motors Ltd. (org id 20119876326), Ireland, EUR, Premium trial. **VAT not switched on yet.**
+**Books:** SuperGear Motors Ltd. (org id 20119876326), Ireland, EUR, Premium trial. **VAT registration not switched on yet.** Connected to CRM (sync scope needs fixing).
+
+## ▶ RESUME HERE (last session: 27 Sep 2026, ~10:15)
+
+**Live data in CRM:** 1 customer (Mritunjay Bhardwaj, id 1042240000000643985: email set, **mobile missing**),
+1 vehicle (181-KE-6745, BMW 530e 2018, 16,800 km, id 1042240000000643987), 0 job cards (first real = JC-1002),
+33 roadmap Tasks (P1.0–P5.1; only P1.0 Completed, P2.4 In Progress). Fleet Accounts: none.
+**Live data in Books:** 3 VAT rates, 28 items with ESTIMATED prices, 0 contacts, 0 vendors.
+
+**Waiting on the owner (check these first, in this order):**
+1. **Books sync set to Contacts** (currently syncs Accounts) → then verify Mritunjay appears in Books (task P2.4).
+2. **CRM Services module**: "Enable Services" clicked but module not present via API; owner to finish the setup wizard / send screenshot. Then Claude creates 16 services matching Books SKUs (SVC-*, LAB-HR).
+3. P1.2b: rename "Vehicle Owner"/"Job Card Owner" → "Handled By"; remove Email/Secondary Email from Vehicles + Job Cards (still pending when checked).
+4. P1.1: hide unused modules (Leads, Deals, Inventory group, etc.): still all visible.
+5. VAT number (P2.3), accountant VAT confirmation (P2.2), owner price review (P2.1b), suppliers list (P2.1).
+6. **P1.9 buy paid CRM plan before 12 Oct 2026.**
+
+**Next build steps with Claude guiding:** P1.3 Blueprint → P1.5 Deluge scripts → P1.6 saved lists → P2.5 Create Quote button.
+
+**Gotchas learned:**
+- Clicking "customize layout" and being asked for a *layout name* = creating a NEW layout. Cancel; edit "Standard".
+- Line_Type picklist stored values are "Option 1" (Labour) / "Option 2" (Part) / "Sundry"; scripts handle both.
+- Job Lines qty field API name is `QTY` (not `Qty`).
+- Zoho CRM MCP: `deleteRecords` (bulk) fails with parse error; use `deleteRecord` one at a time.
+- Books `create_tax` rejects `country_code`; omit it.
+- Connector cannot create modules/layouts/Blueprint/workflows/functions/buttons/custom views/menu groups, or change settings/icons: owner clicks, Claude guides and verifies.
 
 ## Done
 | Date | What | How |

@@ -1,10 +1,29 @@
 Name,Type,Rate,Tax,Unit,SKU,Description
-Labour (per hour),service,75.00,VAT 13.5%,hrs,LAB-HR,Workshop labour
-Diagnostic check,service,60.00,VAT 13.5%,,LAB-DIAG,Fault code read and diagnosis
-Full Service - small car,service,180.00,VAT 13.5%,,SVC-FULL-S,Full service labour - up to 1.6L
-Interim Service - small car,service,120.00,VAT 13.5%,,SVC-INT-S,Interim service labour - up to 1.6L
-Engine oil (per litre),goods,12.00,VAT 23%,ltr,OIL-L,
-Oil filter,goods,12.00,VAT 23%,pcs,FLT-OIL,
-Air filter,goods,18.00,VAT 23%,pcs,FLT-AIR,
-Pollen filter,goods,20.00,VAT 23%,pcs,FLT-POL,
-Sundries / consumables,goods,8.00,VAT 23%,,SUNDRY,Cleaners and shop consumables
+Labour (per hour),service,70.00,VAT 13.5%,,LAB-HR,Workshop labour per hour
+Full Service - small car (up to 1.6L),service,179.00,VAT 13.5%,,SVC-FULL-S,Full service labour; parts extra; ~2 h
+Full Service - large car (over 1.6L),service,229.00,VAT 13.5%,,SVC-FULL-L,Full service labour; parts extra; ~2.5 h
+Interim Service,service,119.00,VAT 13.5%,,SVC-INT,Interim service labour; parts extra; ~1 h
+Diagnostic / fault code check,service,65.00,VAT 13.5%,,SVC-DIAG,First hour
+NCT Prep Check,service,59.00,VAT 13.5%,,SVC-NCT,Pre-NCT inspection; ~1 h
+Brake pads - fitting (per axle),service,80.00,VAT 13.5%,,SVC-BRK-PAD,Pads extra; ~1 h
+Brake pads & discs - fitting (per axle),service,120.00,VAT 13.5%,,SVC-BRK-PD,Parts extra; ~1.5 h
+Tyre fitting & balancing (per tyre),service,15.00,VAT 13.5%,,SVC-TYRE,Tyre extra
+Wheel alignment (tracking),service,55.00,VAT 13.5%,,SVC-ALIGN,
+Clutch replacement - labour,service,450.00,VAT 13.5%,,SVC-CLUTCH,Kit extra; ~5-6 h
+Timing belt / cambelt kit - labour,service,350.00,VAT 13.5%,,SVC-CAMBELT,Kit extra; ~4-5 h
+Battery test & fitting,service,20.00,VAT 13.5%,,SVC-BATT,Battery extra
+Air-con regas,service,89.00,VAT 13.5%,,SVC-AIRCON,R134a
+Pre-purchase inspection,service,99.00,VAT 13.5%,,SVC-PPI,~1 h
+Hybrid / EV health check,service,89.00,VAT 13.5%,,SVC-EVCHK,
+Engine oil (per litre),goods,12.00,VAT 23%,,PRT-OIL-L,
+Oil filter,goods,15.00,VAT 23%,,PRT-FLT-OIL,
+Air filter,goods,22.00,VAT 23%,,PRT-FLT-AIR,
+Pollen / cabin filter,goods,25.00,VAT 23%,,PRT-FLT-POL,
+Fuel filter,goods,35.00,VAT 23%,,PRT-FLT-FUEL,
+Brake pads - set (per axle),goods,65.00,VAT 23%,,PRT-BRK-PAD,
+Brake discs - pair (per axle),goods,110.00,VAT 23%,,PRT-BRK-DSC,
+Wiper blades - pair,goods,30.00,VAT 23%,,PRT-WIPER,
+Battery - standard,goods,140.00,VAT 23%,,PRT-BATT,
+Coolant / antifreeze (per litre),goods,8.00,VAT 23%,,PRT-COOLANT,
+Bulb,goods,8.00,VAT 23%,,PRT-BULB,
+Sundries / consumables,goods,8.00,VAT 23%,,PRT-SUNDRY,

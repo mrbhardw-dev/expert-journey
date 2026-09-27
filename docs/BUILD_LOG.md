@@ -22,6 +22,7 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | 16 owner Tasks created in CRM with step-by-step instructions: paid plan (due 9 Oct), VAT registration, accountant VAT check, hide modules, Operations group, Blueprint, scripts, saved lists, Books↔CRM link, Create Quote button, Stripe, supplier auto-scan, send prices, branding, enter regulars, GDPR consent | Claude via Zoho CRM MCP |
 | 2026-09-27 | Operations menu group done by owner (task marked Completed). Unused modules still visible org-wide. Task added: connect Gmail to CRM | Owner / Claude via MCP |
 | 2026-09-27 | Full roadmap: 31 CRM Tasks numbered P1.0–P5.1 (see docs/ROADMAP.md). First real vehicle 181KE6745 re-formatted to 181-KE-6745 | Claude via Zoho CRM MCP |
+| 2026-09-27 | Books price list: 28 items with ESTIMATED prices (16 labour/services @13.5%, 12 parts @23%, SKUs LAB-/SVC-/PRT-); config/items.csv updated to match; task P2.1b for owner to confirm prices. CRM Services module not yet enabled (owner) | Claude via Zoho Books MCP |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.

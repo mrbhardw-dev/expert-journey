@@ -40,7 +40,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  setup:
+  deployment:
     runs-on: ubuntu-latest
     # "production" has required reviewers, so every run (PR dry run or merge apply) waits for approval.
     environment: ${{ inputs.target || 'production' }}
@@ -51,7 +51,7 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - name: Run setup
+      - name: Deploy to Zoho
         env:
           ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
           ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}

@@ -1,0 +1,22 @@
+// Blueprint after-transition function: "Check In" (Booked → In Workshop)
+// Argument: jobId = Job Cards → Job Card Id
+// Records the mileage on the vehicle (never lowers it, to guard against typos).
+void automation.job_card_check_in(String jobId)
+{
+	job = zoho.crm.getRecordById("Job_Cards", jobId.toLong());
+	vehicle = job.get("Vehicle");
+	mileageIn = job.get("Mileage_In");
+	if(vehicle == null || mileageIn == null)
+	{
+		return;
+	}
+	veh = zoho.crm.getRecordById("Vehicles", vehicle.get("id").toLong());
+	current = ifnull(veh.get("Current_Mileage"), 0);
+	if(mileageIn.toLong() > current.toLong())
+	{
+		upd = Map();
+		upd.put("Current_Mileage", mileageIn.toLong());
+		resp = zoho.crm.updateRecord("Vehicles", vehicle.get("id").toLong(), upd);
+		info resp;
+	}
+}

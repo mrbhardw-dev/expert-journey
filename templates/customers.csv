@@ -1,0 +1,2 @@
+First Name,Last Name,Mobile,Email,Mailing Street,Mailing City,Eircode,Customer Type,Preferred Contact,WhatsApp Consent,Marketing Consent,Consent Date,Description
+Mary,Murphy,+353871234567,mary.murphy@example.ie,12 Main Street,Swords,K67 X2Y3,Private,WhatsApp,TRUE,FALSE,2026-09-01,Example row - delete before import

@@ -1,0 +1,36 @@
+// Blueprint after-transition function: "Collected" (Ready → Collected)
+// Argument: jobId = Job Cards → Job Card Id
+// Updates the vehicle's service history dates so service reminders work.
+void automation.job_card_on_collected(String jobId)
+{
+	// Job types that count as a service (restart the 12-month clock).
+	SERVICE_TYPES = {"Full Service","Interim Service"};
+	SERVICE_INTERVAL_MONTHS = 12;
+
+	job = zoho.crm.getRecordById("Job_Cards", jobId.toLong());
+	vehicle = job.get("Vehicle");
+	if(vehicle == null)
+	{
+		return;
+	}
+	upd = Map();
+	if(SERVICE_TYPES.contains(job.get("Job_Type")))
+	{
+		upd.put("Last_Service_Date", zoho.currentdate.toString("yyyy-MM-dd"));
+		upd.put("Next_Service_Due", zoho.currentdate.addMonth(SERVICE_INTERVAL_MONTHS).toString("yyyy-MM-dd"));
+	}
+	mileageIn = job.get("Mileage_In");
+	if(mileageIn != null)
+	{
+		veh = zoho.crm.getRecordById("Vehicles", vehicle.get("id").toLong());
+		if(mileageIn.toLong() > ifnull(veh.get("Current_Mileage"), 0).toLong())
+		{
+			upd.put("Current_Mileage", mileageIn.toLong());
+		}
+	}
+	if(upd.size() > 0)
+	{
+		resp = zoho.crm.updateRecord("Vehicles", vehicle.get("id").toLong(), upd);
+		info resp;
+	}
+}

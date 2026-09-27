@@ -1,0 +1,133 @@
+// Button function: Job Cards → "Create Quote in Books" (view page)
+// Argument: jobId = Job Cards → Job Card Id
+// Requires a CRM connection named "zbooks" to Zoho Books (see docs/03-books-integration.md §3.5).
+string button.create_books_estimate(String jobId)
+{
+	// ---------------- CONFIG ----------------
+	BOOKS_ORG_ID = "000000000";           // Books → Settings → Organisation Profile
+	TAX_ID_LABOUR = "0000000000000000000"; // VAT 13.5% tax id
+	TAX_ID_PARTS = "0000000000000000000";  // VAT 23% tax id
+	CONN = "zbooks";
+	// ----------------------------------------
+
+	job = zoho.crm.getRecordById("Job_Cards", jobId.toLong());
+	if(job.get("Books_Estimate_ID") != null && job.get("Books_Estimate_ID") != "")
+	{
+		return "A quote already exists for this job: " + job.get("Books_Estimate_No") + ". Edit it in Zoho Books.";
+	}
+	lines = job.get("Job_Lines");
+	if(lines == null || lines.size() == 0)
+	{
+		return "Add at least one Job Line before creating a quote.";
+	}
+	custRef = job.get("Customer");
+	if(custRef == null)
+	{
+		return "Set the Customer on this job card first.";
+	}
+	cust = zoho.crm.getRecordById("Contacts", custRef.get("id").toLong());
+	fullName = (ifnull(cust.get("First_Name"), "") + " " + ifnull(cust.get("Last_Name"), "")).trim();
+	email = ifnull(cust.get("Email"), "");
+
+	// 1. Find the customer in Books (normally already there via the CRM sync)
+	booksCustomerId = "";
+	if(email != "")
+	{
+		search = zoho.books.getRecords("contacts", BOOKS_ORG_ID, "email=" + encodeUrl(email), CONN);
+		found = search.get("contacts");
+		if(found != null && found.size() > 0)
+		{
+			booksCustomerId = found.get(0).get("contact_id");
+		}
+	}
+	if(booksCustomerId == "")
+	{
+		search = zoho.books.getRecords("contacts", BOOKS_ORG_ID, "contact_name=" + encodeUrl(fullName), CONN);
+		found = search.get("contacts");
+		if(found != null && found.size() > 0)
+		{
+			booksCustomerId = found.get(0).get("contact_id");
+		}
+	}
+	// 2. Fallback: create the customer in Books
+	if(booksCustomerId == "")
+	{
+		person = Map();
+		person.put("first_name", ifnull(cust.get("First_Name"), ""));
+		person.put("last_name", ifnull(cust.get("Last_Name"), ""));
+		person.put("email", email);
+		person.put("mobile", ifnull(cust.get("Mobile"), ""));
+		person.put("is_primary_contact", true);
+		newContact = Map();
+		newContact.put("contact_name", fullName);
+		newContact.put("contact_type", "customer");
+		newContact.put("contact_persons", {person});
+		created = zoho.books.createRecord("contacts", BOOKS_ORG_ID, newContact, CONN);
+		if(created.get("code") != 0)
+		{
+			return "Could not create the customer in Books: " + created.get("message");
+		}
+		booksCustomerId = created.get("contact").get("contact_id");
+	}
+
+	// 3. Build estimate lines from the Job Lines subform
+	items = List();
+	for each line in lines
+	{
+		li = Map();
+		lineType = ifnull(line.get("Line_Type"), "Part");
+		desc = ifnull(line.get("Description"), lineType);
+		li.put("name", desc);
+		if(line.get("Part_No") != null)
+		{
+			li.put("description", "Part no. " + line.get("Part_No"));
+		}
+		li.put("quantity", ifnull(line.get("Qty"), 1).toDecimal());
+		li.put("rate", ifnull(line.get("Unit_Price"), 0).toDecimal());
+		if(lineType == "Labour")
+		{
+			li.put("tax_id", TAX_ID_LABOUR);
+		}
+		else
+		{
+			li.put("tax_id", TAX_ID_PARTS);
+		}
+		items.add(li);
+	}
+
+	// 4. Create the estimate
+	vehicleName = "";
+	if(job.get("Vehicle") != null)
+	{
+		vehicleName = job.get("Vehicle").get("name");
+	}
+	notes = "Vehicle: " + vehicleName;
+	if(job.get("Mileage_In") != null)
+	{
+		notes = notes + " | Mileage: " + job.get("Mileage_In") + " km";
+	}
+	if(job.get("Customer_Complaint") != null)
+	{
+		notes = notes + "\nReported issue: " + job.get("Customer_Complaint");
+	}
+	est = Map();
+	est.put("customer_id", booksCustomerId);
+	est.put("reference_number", job.get("Name"));
+	est.put("date", zoho.currentdate.toString("yyyy-MM-dd"));
+	est.put("expiry_date", zoho.currentdate.addDay(30).toString("yyyy-MM-dd"));
+	est.put("line_items", items);
+	est.put("notes", notes);
+	resp = zoho.books.createRecord("estimates", BOOKS_ORG_ID, est, CONN);
+	if(resp.get("code") != 0)
+	{
+		return "Books returned an error: " + resp.get("message");
+	}
+	estimate = resp.get("estimate");
+
+	// 5. Write the reference back to the Job Card
+	upd = Map();
+	upd.put("Books_Estimate_ID", estimate.get("estimate_id"));
+	upd.put("Books_Estimate_No", estimate.get("estimate_number"));
+	zoho.crm.updateRecord("Job_Cards", jobId.toLong(), upd);
+	return "Quote " + estimate.get("estimate_number") + " created in Zoho Books (total €" + estimate.get("total") + "). Open Books to send it to the customer.";
+}

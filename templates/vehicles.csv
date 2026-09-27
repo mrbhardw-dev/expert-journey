@@ -1,0 +1,2 @@
+Registration,Customer Mobile,Make,Model,Year,Fuel Type,Engine Size,Colour,VIN,Current Mileage (km),Last Service Date,Next Service Due,NCT Due,Vehicle Status,Notes
+191-D-12345,+353871234567,Toyota,Corolla,2019,Hybrid,1.8,Silver,,98500,2026-03-14,2027-03-14,2027-05-31,Active,Example row - delete before import

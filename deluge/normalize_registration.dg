@@ -1,0 +1,28 @@
+// Workflow function: Vehicles → on create / on edit (Registration modified)
+// Argument: vehicleId = Vehicles → Vehicle Id
+// Turns "191d12345", "191 D 12345", "191-d-12345" into "191-D-12345".
+// Irish format: 2–3 digit year, 1–2 letter county code, 1–6 digit sequence.
+void automation.normalize_registration(String vehicleId)
+{
+	rec = zoho.crm.getRecordById("Vehicles", vehicleId.toLong());
+	reg = ifnull(rec.get("Name"), "");
+	raw = reg.toUpperCase().replaceAll("[^A-Z0-9]", "");
+	pattern = "^([0-9]{2,3})([A-Z]{1,2})([0-9]{1,6})$";
+	upd = Map();
+	if(raw.matches(pattern))
+	{
+		formatted = raw.replaceAll(pattern, "$1-$2-$3");
+		if(formatted != reg)
+		{
+			upd.put("Name", formatted);
+		}
+		upd.put("Reg_Check", "OK");
+	}
+	else
+	{
+		// Pre-1987 or foreign plates: leave as typed, flag for a human.
+		upd.put("Reg_Check", "Check format");
+	}
+	resp = zoho.crm.updateRecord("Vehicles", vehicleId.toLong(), upd);
+	info resp;
+}

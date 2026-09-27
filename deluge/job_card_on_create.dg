@@ -1,0 +1,22 @@
+// Workflow function: Job Cards → on create
+// Argument: jobId = Job Cards → Job Card Id
+// Copies the vehicle's owner onto the job card so the advisor only picks the car.
+void automation.job_card_on_create(String jobId)
+{
+	job = zoho.crm.getRecordById("Job_Cards", jobId.toLong());
+	vehicle = job.get("Vehicle");
+	if(vehicle == null || job.get("Customer") != null)
+	{
+		return;
+	}
+	veh = zoho.crm.getRecordById("Vehicles", vehicle.get("id").toLong());
+	owner = veh.get("Customer");
+	if(owner != null)
+	{
+		upd = Map();
+		upd.put("Customer", owner.get("id"));
+		upd.put("Payment_Status", "Not Invoiced");
+		resp = zoho.crm.updateRecord("Job_Cards", jobId.toLong(), upd);
+		info resp;
+	}
+}

@@ -17,6 +17,7 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | Job Cards fields (19): Job_Number (auto-number JC-1001), Vehicle, Customer, Stage, Job_Type, Booked_For, Mechanic, Customer_Complaint, Mileage_In, Work_Done, Advisories, Parts_Awaited, Promised_By, Books_Estimate_ID, Books_Estimate_No, Books_Invoice_No, Payment_Status, Cancel_Reason, Import_Key (API names verified) | Claude via Zoho CRM MCP |
 | 2026-09-27 | End-to-end link check: throwaway Customer → Vehicle → Job Card created, Job_Number auto-filled (JC-1001), lookups OK; all three deleted. First real job will be JC-1002 | Claude via Zoho CRM MCP |
 | 2026-09-27 | Job Lines subform (Line_Type, Description, Part_No, QTY, Unit_Price, Line_Total formula) + Job_Total on Job Cards; Standard profile given access to Vehicles and Job Cards | Owner in CRM UI, verified by Claude |
+| 2026-09-27 | Books VAT rates: VAT 13.5% (1426684000000064001), VAT 23% (1426684000000065001), VAT 0% (1426684000000063002); IDs filled into create_books_estimate.dg | Claude via Zoho Books MCP |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.
@@ -24,7 +25,7 @@ What has actually been built in the live Zoho account. Update this after each se
 - [x] Job Cards module created
 - [ ] Optional: tick *Do not allow duplicate values* on Vehicles → Registration
 - [x] Sign up for Zoho Books (done 2026-09-27)
-- [ ] Books → Settings → Taxes → tick *registered for VAT* and enter the VAT number (needed before VAT rates can be created)
+- [ ] Books → Settings → Taxes → tick *registered for VAT* and enter the VAT number (rates already exist; this is needed for VAT returns and to show the VAT no. on invoices)
 - [ ] Send real prices (`config/items.csv`) and supplier names (`config/suppliers.csv`)
 - [ ] Accountant confirms VAT 13.5% labour / 23% parts
 

@@ -1,8 +1,20 @@
 name: SuperGear Motors Ltd
 
-# Run by hand from the Actions tab. Leave "apply" unticked for a dry run that only
-# shows what would change. Credentials come from the chosen GitHub environment's secrets.
+# Pull request that touches the setup config -> dry run on production (shows what would change).
+# Merge into the default branch -> apply on production (after the environment's required approval).
+# Or run by hand from the Actions tab. Credentials come from the chosen GitHub environment's secrets.
 on:
+  pull_request:
+    paths:
+      - "config/**"
+      - "zoho_setup/**"
+      - ".github/workflows/zoho-setup.yml"
+  push:
+    branches: [claude/cool-mayer-81nta8]
+    paths:
+      - "config/**"
+      - "zoho_setup/**"
+      - ".github/workflows/zoho-setup.yml"
   workflow_dispatch:
     inputs:
       target:
@@ -24,14 +36,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: zoho-setup-${{ inputs.target }}
+  group: zoho-setup-${{ inputs.target || 'production' }}
   cancel-in-progress: false
 
 jobs:
   setup:
     runs-on: ubuntu-latest
-    # Add required reviewers to the "production" environment so production runs need approval.
-    environment: ${{ inputs.target }}
+    # "production" has required reviewers, so every run (PR dry run or merge apply) waits for approval.
+    environment: ${{ inputs.target || 'production' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -48,8 +60,8 @@ jobs:
           ZOHO_CRM_API_DOMAIN: ${{ vars.ZOHO_CRM_API_DOMAIN }}
           ZOHO_BOOKS_API_DOMAIN: ${{ vars.ZOHO_BOOKS_API_DOMAIN }}
           ZOHO_BOOKS_ORG_ID: ${{ vars.ZOHO_BOOKS_ORG_ID }}
-          STEP: ${{ inputs.step }}
-          APPLY: ${{ inputs.apply }}
+          STEP: ${{ inputs.step || 'all' }}
+          APPLY: ${{ github.event_name == 'push' || inputs.apply }}
         run: |
           if [ "$APPLY" = "true" ]; then
             python -m zoho_setup "$STEP" --apply

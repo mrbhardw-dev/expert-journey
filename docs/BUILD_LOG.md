@@ -50,6 +50,7 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | Books price list: 28 items with ESTIMATED prices (16 labour/services @13.5%, 12 parts @23%, SKUs LAB-/SVC-/PRT-); config/items.csv updated to match; task P2.1b for owner to confirm prices. CRM Services module not yet enabled (owner) | Claude via Zoho Books MCP |
 | 2026-09-27 | Books↔CRM integration connected by owner, but syncing Accounts not Contacts (P2.4 In Progress). Placeholder Fleet Account 'SuperGear Customers' deleted from CRM + Books (owner approved); vehicle 181-KE-6745 unlinked from it first, still linked to customer | Owner / Claude via MCP |
 | 2026-09-27 | Owner confirmed: labour €80/hr + VAT (Books item LAB-HR updated); suppliers Clane Motor Factors + Fergal Allen Motor Factors created in Books (contact details TBC); company CRO 782596 / VAT IE4393123CH recorded. Owner says 'normal VAT is 13.5%': pending decision whether parts on repair jobs should also be 13.5% | Claude via Zoho Books MCP |
+| 2026-09-27 | Sync re-test: edited Mritunjay (Customer_Type=Private) to trigger sync → still 0 customers in Books; confirms sync scope must be changed to Contacts in Books UI. Did NOT hand-create him in Books (would duplicate once sync fixed). Books org profile/VAT fields still blank at 14:10 | Claude via MCP |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.

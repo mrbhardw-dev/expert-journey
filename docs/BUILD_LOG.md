@@ -4,7 +4,7 @@ What has actually been built in the live Zoho account. Update this after each se
 
 **CRM org:** Supergear Motors Ltd. (org id 1042240000000023712), EU data centre, Europe/Dublin, EUR.
 **Edition:** Enterprise **trial, ends 12 Oct 2026**. After that it drops to the Free edition unless a plan is bought.
-**Books:** no organisation yet.
+**Books:** SuperGear Motors Ltd. (org id 20119876326), Ireland, EUR, Premium trial. **VAT not switched on yet.**
 
 ## Done
 | Date | What | How |
@@ -16,7 +16,8 @@ What has actually been built in the live Zoho account. Update this after each se
 - [ ] **Create the two custom modules in CRM** (Setup → Customization → Modules and Fields → + New Module):
   - **Vehicles**: rename the record-name field to *Registration*, tick *Do not allow duplicate values*
   - **Job Cards**: set the record-name field to *Auto-Number*, label *Job Number*, prefix `JC-`, start `1001`
-- [ ] **Sign up for Zoho Books** with the same Zoho login (books.zoho.eu), country **Ireland**, currency EUR
+- [x] Sign up for Zoho Books (done 2026-09-27)
+- [ ] Books → Settings → Taxes → tick *registered for VAT* and enter the VAT number (needed before VAT rates can be created)
 - [ ] Send real prices (`config/items.csv`) and supplier names (`config/suppliers.csv`)
 - [ ] Accountant confirms VAT 13.5% labour / 23% parts
 

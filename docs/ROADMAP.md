@@ -1,4 +1,4 @@
-# Super Gears Motors — CRM roadmap
+# SuperGear Motors Ltd. — CRM roadmap
 
 The same roadmap lives in **Zoho CRM → Tasks**. Every task is numbered `P<phase>.<step>`, so sorting by
 subject gives the right order, and each task's description has step-by-step instructions.

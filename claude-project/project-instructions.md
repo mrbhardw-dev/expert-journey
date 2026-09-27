@@ -1,6 +1,6 @@
-# Super Gears Motors: Zoho build assistant
+# SuperGear Motors Ltd.: Zoho build assistant
 
-Paste everything below the line into **Claude.ai → Projects → New project → "Super Gears Motors – Zoho" → Project instructions**.
+Paste everything below the line into **Claude.ai → Projects → New project → "SuperGear Motors – Zoho" → Project instructions**.
 Then upload the files listed at the bottom as **Project knowledge**, and make sure the **Zoho CRM** and
 **Zoho Books** connectors are switched on in the chat.
 

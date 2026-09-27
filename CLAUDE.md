@@ -1,4 +1,4 @@
-# Super Gears Motors: Zoho CRM + Books build
+# SuperGear Motors Ltd.: Zoho CRM + Books build
 
 Irish motor garage moving from paper to Zoho CRM + Zoho Books. Claude builds through the Zoho CRM / Zoho Books MCP connectors
 and guides the owner through UI-only steps.

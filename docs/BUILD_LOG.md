@@ -4,7 +4,7 @@ What has actually been built in the live Zoho account. Update this after each se
 
 **CRM org:** Supergear Motors Ltd. (org id 1042240000000023712), EU data centre, Europe/Dublin, EUR.
 **Edition:** Enterprise **trial, ends 12 Oct 2026**. After that it drops to the Free edition unless a plan is bought.
-**Books:** SuperGear Motors Ltd. (org id 20119876326), Ireland, EUR, Premium trial. **VAT registration not switched on yet.** Connected to CRM (sync scope needs fixing).
+**Books:** SuperGear Motors Ltd. (org id 20119876326), Ireland, EUR, Premium trial. **Company:** CRO 782596, VAT IE4393123CH. **VAT registration not switched on yet.** Connected to CRM (sync scope needs fixing).
 
 ## ▶ RESUME HERE (last session: 27 Sep 2026, ~10:15)
 
@@ -18,7 +18,7 @@ What has actually been built in the live Zoho account. Update this after each se
 2. **CRM Services module**: "Enable Services" clicked but module not present via API; owner to finish the setup wizard / send screenshot. Then Claude creates 16 services matching Books SKUs (SVC-*, LAB-HR).
 3. P1.2b: rename "Vehicle Owner"/"Job Card Owner" → "Handled By"; remove Email/Secondary Email from Vehicles + Job Cards (still pending when checked).
 4. P1.1: hide unused modules (Leads, Deals, Inventory group, etc.): still all visible.
-5. VAT number (P2.3), accountant VAT confirmation (P2.2), owner price review (P2.1b), suppliers list (P2.1).
+5. **VAT registration in Books (P2.3): number received (IE4393123CH, CRO 782596); owner must enter it in Books → Taxes → VAT Settings (no API) plus VAT registration date.** Also: accountant VAT confirmation (P2.2), owner price review (P2.1b), suppliers list (P2.1).
 6. **P1.9 buy paid CRM plan before 12 Oct 2026.**
 
 **Next build steps with Claude guiding:** P1.3 Blueprint → P1.5 Deluge scripts → P1.6 saved lists → P2.5 Create Quote button.

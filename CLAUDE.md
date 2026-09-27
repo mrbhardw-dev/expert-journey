@@ -6,6 +6,7 @@ and guides the owner through UI-only steps.
 **Start every session by reading `docs/BUILD_LOG.md` → "RESUME HERE"**, then check live state with the connectors before acting.
 Master plan: `docs/ROADMAP.md` (mirrored as numbered Tasks P1.0–P5.1 in Zoho CRM → Tasks).
 
+Company: SuperGear Motors Ltd., CRO 782596, VAT IE4393123CH.
 Key IDs: CRM org 1042240000000023712 (EU); Books org 20119876326; VAT 13.5% 1426684000000064001, 23% 1426684000000065001, 0% 1426684000000063002.
 Modules: Contacts (label "Customers"), Accounts ("Fleet Accounts"), Vehicles, Job_Cards (+ subform Job_Lines).
 

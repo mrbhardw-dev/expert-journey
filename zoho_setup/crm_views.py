@@ -3,6 +3,8 @@
 Uses CRM API v8 POST /settings/custom_views (scope ZohoCRM.settings.custom_views.ALL),
 as described in Zoho's own OpenAPI files: https://github.com/zoho/crm-oas (v8.0/custom_views).
 """
+from .client import ZohoError
+
 CRM = "/crm/v8"
 
 
@@ -42,7 +44,7 @@ def view_payload(spec, ids):
     view = {
         "name": spec["name"],
         "access_type": "public",
-        "fields": [{"api_name": f, "id": ids[f]} for f in spec["fields"]],
+        "fields": [{"api_name": f, "id": ids[f], "_pin": False} for f in spec["fields"]],
     }
     if spec.get("criteria"):
         view["criteria"] = _criteria(spec["criteria"], ids)
@@ -68,8 +70,12 @@ def sync(client, config, report):
             if missing:
                 report.add("CRM views", name, "blocked", "fields not in CRM: " + ", ".join(missing))
                 continue
-            resp = client.post(f"{CRM}/settings/custom_views", params={"module": module},
-                               json=view_payload(spec, ids))
+            try:
+                resp = client.post(f"{CRM}/settings/custom_views", params={"module": module},
+                                   json=view_payload(spec, ids))
+            except ZohoError as e:  # one bad view shouldn't stop the others
+                report.add("CRM views", name, "failed", str(e)[:300])
+                continue
             if resp is None:
                 report.add("CRM views", name, "would create")
                 continue

@@ -2,12 +2,12 @@
 # a view whose name already exists is left alone.
 #
 # `criteria` uses Zoho's own filter format (CRM API v8, POST /settings/custom_views) with field
-# api_names only; the script looks up the field ids. Date placeholders: ${TODAY}, ${DUEINDAYS}+N.
+# api_names only; the script looks up the field ids. Every view must include the record name (Name). Date placeholders: ${TODAY}, ${DUEINDAYS}+N.
 
 views:
   Job_Cards:
     - name: Today in the workshop  # no apostrophe: Zoho rejects some special characters in view names
-      fields: [Job_Number, Vehicle, Customer, Stage, Job_Type, Booked_For, Mechanic]
+      fields: [Name, Job_Number, Vehicle, Customer, Stage, Job_Type, Booked_For, Mechanic]
       sort_by: Booked_For
       criteria:
         group_operator: and
@@ -15,18 +15,18 @@ views:
           - {field: Booked_For, comparator: equal, value: "${TODAY}"}
           - {field: Stage, comparator: not_equal, value: [Collected, Cancelled]}
     - name: On the ramp
-      fields: [Job_Number, Vehicle, Customer, Job_Type, Mechanic, Promised_By]
+      fields: [Name, Job_Number, Vehicle, Customer, Job_Type, Mechanic, Promised_By]
       sort_by: Promised_By
       criteria: {field: Stage, comparator: equal, value: [In Workshop]}
     - name: Waiting parts
-      fields: [Job_Number, Vehicle, Customer, Parts_Awaited, Promised_By]
+      fields: [Name, Job_Number, Vehicle, Customer, Parts_Awaited, Promised_By]
       sort_by: Promised_By
       criteria: {field: Stage, comparator: equal, value: [Waiting Parts]}
     - name: Ready - call customer
-      fields: [Job_Number, Vehicle, Customer, Job_Type, Job_Total, Payment_Status]
+      fields: [Name, Job_Number, Vehicle, Customer, Job_Type, Job_Total, Payment_Status]
       criteria: {field: Stage, comparator: equal, value: [Ready]}
     - name: Not paid
-      fields: [Job_Number, Vehicle, Customer, Job_Total, Books_Invoice_No, Payment_Status]
+      fields: [Name, Job_Number, Vehicle, Customer, Job_Total, Books_Invoice_No, Payment_Status]
       criteria:
         group_operator: and
         group:

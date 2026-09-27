@@ -23,6 +23,7 @@ Follow these in order. Each step depends on the one before it.
 **➡ Master plan: [ROADMAP](docs/ROADMAP.md)** (mirrored as numbered Tasks in Zoho CRM)
 
 7. **[Automated setup with GitHub Actions](docs/07-github-actions.md)**: creates the CRM fields, Books VAT rates, price list and suppliers for you.
+8. **[What Zoho's API can automate](docs/08-zoho-api-integrations.md)**: research from github.com/zoho/crm-oas, reminder workflows, email templates to paste.
 
 ## Build with Claude + Zoho MCP
 

@@ -1,0 +1,64 @@
+# CRM workflow rules created by `python -m zoho_setup crm-workflows`. Safe to re-run:
+# a rule (or task template) whose name already exists is left alone.
+#
+# Built from Zoho's own OpenAPI files (github.com/zoho/crm-oas, v8.0):
+#   POST /settings/automation/tasks            (task templates, one per request)
+#   POST /settings/automation/workflow_rules   (one rule per request; tasks attached by id)
+# Field names are api_names; the script looks up module and field ids.
+# Each task lands on the record that triggered it, so staff open the task and see the car/job.
+#
+# Merge tokens: ${!Module.Field}. A task's name must equal its Subject (Zoho rule).
+
+tasks:
+  - key: service_due
+    module: Vehicles
+    subject: "Service due: ${!Vehicles.Name}"
+    description: "Service due on ${!Vehicles.Next_Service_Due} for ${!Vehicles.Name} (${!Vehicles.Make} ${!Vehicles.Model}). Call or WhatsApp the customer and book it in."
+    due_in_days: 0
+    priority: High
+  - key: nct_due
+    module: Vehicles
+    subject: "NCT due: ${!Vehicles.Name}"
+    description: "NCT due on ${!Vehicles.NCT_Due} for ${!Vehicles.Name}. Offer an NCT Prep Check (SVC-NCT) before the test."
+    due_in_days: 0
+    priority: Normal
+  - key: not_collected
+    module: Job_Cards
+    subject: "Not collected yet: ${!Job_Cards.Name}"
+    description: "Job ${!Job_Cards.Job_Number} has been Ready for 2 days. Call the customer to arrange collection."
+    due_in_days: 0
+    priority: High
+  - key: chase_payment
+    module: Job_Cards
+    subject: "Chase payment: ${!Job_Cards.Name}"
+    description: "Job ${!Job_Cards.Job_Number} was collected 3 days ago and is not marked Paid (invoice ${!Job_Cards.Books_Invoice_No}). Check Books and follow up."
+    due_in_days: 0
+    priority: High
+
+rules:
+  - name: Service due in 14 days
+    module: Vehicles
+    description: "Creates a call task 14 days before Next Service Due (active vehicles only)."
+    trigger: {type: date, field: Next_Service_Due, days: -14}
+    criteria: {field: Vehicle_Status, comparator: equal, value: Active}
+    tasks: [service_due]
+  - name: NCT due in 30 days
+    module: Vehicles
+    description: "Creates a task 30 days before NCT Due (active vehicles only)."
+    trigger: {type: date, field: NCT_Due, days: -30}
+    criteria: {field: Vehicle_Status, comparator: equal, value: Active}
+    tasks: [nct_due]
+  - name: Ready but not collected
+    module: Job_Cards
+    description: "When a job becomes Ready, creates a task 2 days later if it is still Ready."
+    trigger: {type: field_update, field: Stage, value: Ready}
+    criteria: {field: Stage, comparator: equal, value: Ready}
+    after_days: 2
+    tasks: [not_collected]
+  - name: Collected but not paid
+    module: Job_Cards
+    description: "When a job is Collected, creates a chase task 3 days later unless it is Paid or on account."
+    trigger: {type: field_update, field: Stage, value: Collected}
+    criteria: {field: Payment_Status, comparator: not_equal, value: [Paid, Account Customer]}
+    after_days: 3
+    tasks: [chase_payment]

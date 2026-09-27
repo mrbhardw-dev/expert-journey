@@ -3,7 +3,7 @@ import os
 import pytest
 import yaml
 
-from zoho_setup import books_config, crm_schema, crm_views, importer, normalize, validate
+from zoho_setup import books_config, crm_schema, crm_views, crm_workflows, importer, normalize, validate
 from zoho_setup.__main__ import main
 from zoho_setup.report import Report
 
@@ -240,3 +240,75 @@ def test_crm_views_dry_run_skips_existing_blocks_missing_and_adds_ids():
                       "comparator": "equal", "value": "${TODAY}", "type": "pre_defined"}
     assert stage["type"] == "value" and stage["value"] == ["Collected", "Cancelled"]
     assert today["access_type"] == "public" and today["sort_by"]["id"] == "id-Booked_For"
+
+
+# ---- crm workflows ----
+
+def _workflow_client(existing_rules=None, existing_tasks=None, dry_run=True, write_response=None):
+    ids = lambda names: {"fields": [{"api_name": a, "id": f"id-{a}"} for a in names]}
+    fields = {
+        "Tasks": ids(["Subject", "Due_Date", "Status", "Priority", "Description"]),
+        "Vehicles": ids(["Name", "Next_Service_Due", "NCT_Due", "Vehicle_Status"]),
+        "Job_Cards": ids(["Name", "Stage", "Payment_Status"]),
+    }
+    return FakeClient({
+        "/crm/v8/settings/modules": {"modules": [{"api_name": m, "id": f"mod-{m}"}
+                                                 for m in ("Vehicles", "Job_Cards", "Tasks")]},
+        "/crm/v8/settings/fields": lambda p: fields[p["module"]],
+        "/crm/v8/settings/automation/workflow_rules":
+            lambda p: {"workflow_rules": [{"name": n, "id": "r1"} for n in (existing_rules or {}).get(p["module"], [])]},
+        "/crm/v8/settings/automation/tasks":
+            lambda p: {"tasks": [{"name": n, "id": i} for n, i in (existing_tasks or {}).get(p["module"], {}).items()]},
+    }, dry_run=dry_run, write_response=write_response)
+
+
+def test_crm_workflows_dry_run():
+    client = _workflow_client(existing_rules={"Vehicles": ["NCT due in 30 days"]})
+    report = Report(dry_run=True)
+    crm_workflows.sync(client, load("crm_workflows.yaml"), report)
+    outcome = {name: out for _, name, out, _ in report.rows}
+    assert outcome["Vehicles: NCT due in 30 days"] == "exists"
+    assert outcome["Vehicles: Service due in 14 days"] == "would create"
+    assert outcome["Job_Cards: Collected but not paid"] == "would create"
+    assert not report.failed
+
+    task = next(w[3]["tasks"][0] for w in client.writes if w[1].endswith("/automation/tasks"))
+    assert task["name"] == "Service due: ${!Vehicles.Name}" and task["module"]["id"] == "mod-Vehicles"
+    subject = next(m for m in task["field_mappings"] if m["field"]["api_name"] == "Subject")
+    assert subject == {"field": {"api_name": "Subject", "id": "id-Subject"}, "type": "merge_field",
+                       "value": "Service due: ${!Vehicles.Name}"}
+
+    rules = {w[3]["workflow_rules"][0]["name"]: w[3]["workflow_rules"][0]
+             for w in client.writes if w[1].endswith("/workflow_rules")}
+    service = rules["Service due in 14 days"]
+    assert service["execute_when"]["type"] == "date_or_datetime"
+    assert service["execute_when"]["details"]["unit"] == -14
+    assert service["conditions"][0]["criteria_details"]["criteria"]["value"] == "Active"
+    unpaid = rules["Collected but not paid"]["conditions"][0]
+    assert unpaid["scheduled_actions"][0]["execute_after"] == {"period": "days", "unit": 3}
+    assert unpaid["criteria_details"]["criteria"]["value"] == ["Paid", "Account Customer"]
+
+
+def test_crm_workflows_apply_reuses_existing_task_template():
+    client = _workflow_client(
+        existing_tasks={"Job_Cards": {"Not collected yet: ${!Job_Cards.Name}": "t-existing"}},
+        dry_run=False,
+        write_response={"tasks": [{"status": "success", "details": {"id": "t-new"}}],
+                        "workflow_rules": [{"status": "success", "details": {"id": "r-new"}}]})
+    config = load("crm_workflows.yaml")
+    config["rules"] = [r for r in config["rules"] if r["name"] == "Ready but not collected"]
+    report = Report(dry_run=False)
+    crm_workflows.sync(client, config, report)
+    assert [w[1] for w in client.writes] == ["/crm/v8/settings/automation/workflow_rules"]
+    actions = client.writes[0][3]["workflow_rules"][0]["conditions"][0]["scheduled_actions"][0]["actions"]
+    assert actions == [{"type": "tasks", "id": "t-existing"}]
+    assert report.rows[-1][2] == "created"
+
+
+def test_crm_workflows_config_references_known_tasks():
+    config = load("crm_workflows.yaml")
+    keys = {t["key"] for t in config["tasks"]}
+    for rule in config["rules"]:
+        assert set(rule["tasks"]) <= keys
+        for key in rule["tasks"]:
+            assert next(t for t in config["tasks"] if t["key"] == key)["module"] == rule["module"]

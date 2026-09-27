@@ -28,7 +28,7 @@ Every run is **safe to repeat**: anything that already exists is left alone and 
 2. Copy the **Client ID** and **Client Secret**.
 3. Click the *Generate Code* tab and paste in these scopes:
    ```
-   ZohoCRM.settings.modules.READ,ZohoCRM.settings.fields.ALL,ZohoCRM.settings.custom_views.ALL,ZohoCRM.modules.ALL,ZohoBooks.settings.ALL,ZohoBooks.contacts.ALL
+   ZohoCRM.settings.modules.READ,ZohoCRM.settings.fields.ALL,ZohoCRM.settings.custom_views.ALL,ZohoCRM.settings.workflow_rules.ALL,ZohoCRM.settings.automation_actions.ALL,ZohoCRM.modules.ALL,ZohoBooks.settings.ALL,ZohoBooks.contacts.ALL
    ```
    Duration: 10 minutes. Description: `github setup`. Click Create and copy the **code**.
 4. Within 10 minutes, swap the code for a **refresh token** on your own computer:

@@ -3,8 +3,9 @@
   validate      offline checks of config, templates and Deluge scripts (no credentials needed)
   crm-schema    create CRM custom fields from config/crm_schema.yaml
   crm-views     create CRM list views from config/crm_views.yaml
+  crm-workflows create CRM reminder workflow rules from config/crm_workflows.yaml
   books-config  create Books VAT rates, items and suppliers from config/books.yaml
-  all           crm-schema + crm-views + books-config
+  all           crm-schema + crm-views + crm-workflows + books-config
   import-data   import customers/vehicles/job history from --data-dir (run locally, not in CI)
 
 Without --apply every command is a dry run: it reads from Zoho and prints what it would change.
@@ -16,7 +17,7 @@ import sys
 
 import yaml
 
-from . import books_config, crm_schema, crm_views, importer, validate
+from . import books_config, crm_schema, crm_views, crm_workflows, importer, validate
 from .client import ZohoClient, ZohoError
 from .report import Report
 
@@ -31,7 +32,8 @@ def load_yaml(path):
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="zoho_setup", description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("command", choices=["validate", "crm-schema", "crm-views", "books-config", "all", "import-data"])
+    parser.add_argument("command", choices=["validate", "crm-schema", "crm-views", "crm-workflows", "books-config", "all",
+                                                        "import-data"])
     parser.add_argument("--apply", action="store_true", help="make changes (default is a dry run)")
     parser.add_argument("--data-dir", help="folder with customers.csv, vehicles.csv, job_history.csv")
     args = parser.parse_args(argv)
@@ -65,6 +67,9 @@ def main(argv=None):
         if args.command in ("crm-views", "all"):
             crm = ZohoClient.from_env("ZOHO_CRM_API_DOMAIN", EU_API, dry_run=not args.apply)
             crm_views.sync(crm, load_yaml("config/crm_views.yaml"), report)
+        if args.command in ("crm-workflows", "all"):
+            crm = ZohoClient.from_env("ZOHO_CRM_API_DOMAIN", EU_API, dry_run=not args.apply)
+            crm_workflows.sync(crm, load_yaml("config/crm_workflows.yaml"), report)
         if args.command in ("books-config", "all"):
             org_id = os.environ.get("ZOHO_BOOKS_ORG_ID")
             if not org_id:

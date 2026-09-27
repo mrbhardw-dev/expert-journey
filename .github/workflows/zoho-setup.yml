@@ -25,7 +25,7 @@ on:
       step:
         description: "What to set up"
         type: choice
-        options: [all, crm-schema, crm-views, books-config]
+        options: [all, crm-schema, crm-views, crm-workflows, books-config]
         default: all
       apply:
         description: "Apply changes (unticked = dry run, nothing is changed)"

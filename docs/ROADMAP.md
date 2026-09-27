@@ -63,7 +63,7 @@ Legend: ✅ done · 👤 owner clicks in Zoho · 🤖 Claude does it through the
 | # | Step | Who | Due |
 |---|---|---|---|
 | P4.1 | WhatsApp: "your car is ready" | 🤝 | 6 Nov |
-| P4.2 | Automatic service + NCT reminders | 🤝 | 13 Nov |
+| P4.2 | Automatic service + NCT reminders (tasks: built, `crm-workflows`; WhatsApp later) | 🤖 | 13 Nov |
 | P4.3 | Google review request after collection | 🤝 | 20 Nov |
 | P4.4 | Online booking (web form or Zoho Bookings) | 🤝 | 27 Nov |
 | P4.5 | Owner dashboard | 🤝 | 4 Dec |

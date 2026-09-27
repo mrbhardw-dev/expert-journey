@@ -11,7 +11,7 @@ What has actually been built in the live Zoho account. Update this after each se
 **Live data in CRM:** 1 customer (Mritunjay Bhardwaj, id 1042240000000643985: email set, **mobile missing**),
 1 vehicle (181-KE-6745, BMW 530e 2018, 16,800 km, id 1042240000000643987), 0 job cards (first real = JC-1002),
 33 roadmap Tasks (P1.0–P5.1; only P1.0 Completed, P2.4 In Progress). Fleet Accounts: none.
-**Live data in Books:** 3 VAT rates, 28 items with ESTIMATED prices, 0 contacts, 0 vendors.
+**Live data in Books:** 3 VAT rates, 28 items (labour €80 confirmed; rest ESTIMATED; items now also syncing to CRM Products), 2 vendors (Clane Motor Factors, Fergal Allen Motor Factors), 0 customers.
 
 **Waiting on the owner (check these first, in this order):**
 1. **Books sync set to Contacts** (currently syncs Accounts) → then verify Mritunjay appears in Books (task P2.4).
@@ -49,6 +49,7 @@ What has actually been built in the live Zoho account. Update this after each se
 | 2026-09-27 | Full roadmap: 31 CRM Tasks numbered P1.0–P5.1 (see docs/ROADMAP.md). First real vehicle 181KE6745 re-formatted to 181-KE-6745 | Claude via Zoho CRM MCP |
 | 2026-09-27 | Books price list: 28 items with ESTIMATED prices (16 labour/services @13.5%, 12 parts @23%, SKUs LAB-/SVC-/PRT-); config/items.csv updated to match; task P2.1b for owner to confirm prices. CRM Services module not yet enabled (owner) | Claude via Zoho Books MCP |
 | 2026-09-27 | Books↔CRM integration connected by owner, but syncing Accounts not Contacts (P2.4 In Progress). Placeholder Fleet Account 'SuperGear Customers' deleted from CRM + Books (owner approved); vehicle 181-KE-6745 unlinked from it first, still linked to customer | Owner / Claude via MCP |
+| 2026-09-27 | Owner confirmed: labour €80/hr + VAT (Books item LAB-HR updated); suppliers Clane Motor Factors + Fergal Allen Motor Factors created in Books (contact details TBC); company CRO 782596 / VAT IE4393123CH recorded. Owner says 'normal VAT is 13.5%': pending decision whether parts on repair jobs should also be 13.5% | Claude via Zoho Books MCP |
 
 ## Waiting on the owner
 - [ ] **Choose a paid CRM plan before 12 Oct 2026.** Professional is the minimum for custom modules + Blueprint.

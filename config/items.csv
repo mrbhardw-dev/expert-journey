@@ -1,5 +1,5 @@
 Name,Type,Rate,Tax,Unit,SKU,Description
-Labour (per hour),service,70.00,VAT 13.5%,,LAB-HR,Workshop labour per hour
+Labour (per hour),service,80.00,VAT 13.5%,,LAB-HR,Workshop labour per hour
 Full Service - small car (up to 1.6L),service,179.00,VAT 13.5%,,SVC-FULL-S,Full service labour; parts extra; ~2 h
 Full Service - large car (over 1.6L),service,229.00,VAT 13.5%,,SVC-FULL-L,Full service labour; parts extra; ~2.5 h
 Interim Service,service,119.00,VAT 13.5%,,SVC-INT,Interim service labour; parts extra; ~1 h
